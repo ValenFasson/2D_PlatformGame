@@ -32,15 +32,9 @@ public class Door : MonoBehaviour
         var manager = FindObjectOfType<SceneStackManager>();
         if (manager == null) return;
 
-        if (goBack)
-        {
-            manager.GoBack();
-        }
-        else
-        {
-            manager.GoToRandomNext();
-        }
-
+        manager.GoToRandomNext();
+        manager.roomsCompleted();
+   
         StartCoroutine(Cooldown());
     }
 

@@ -5,42 +5,64 @@ using UnityEngine;
 public class ReaperMovement : MonoBehaviour
 {
     [SerializeField] public float ThresholdDistance = 200f;
-    [SerializeField] public Transform player;
     [SerializeField] public float speed;
     [SerializeField] public bool canTurnBack;
+
+    [SerializeField] string playerTag = "Player"; // tag del jugador
+
+    private Transform player;          // referencia encontrada por tag
     private Vector2 StartPosition;
     private float ActualDistance;
 
     public void Awake()
     {
         StartPosition = transform.position;
+        FindPlayer();
     }
+
     public void Update()
     {
-        ActualDistance = Vector2.Distance(player.transform.position, transform.position); 
-        
-        if (!canTurnBack) 
+        // Si no hay referencia (p. ej. al cargar escena), intentar encontrarla
+        if (player == null)
+        {
+            FindPlayer();
+            if (player == null) return;
+        }
+
+        ActualDistance = Vector2.Distance(player.position, transform.position);
+
+        if (!canTurnBack)
         {
             Following();
         }
-        else 
+        else
         {
             FollowingNBack();
         }
-
     }
-    public void Following() 
+
+    void FindPlayer()
     {
-        if (ActualDistance < ThresholdDistance)
+        GameObject go = GameObject.FindGameObjectWithTag(playerTag);
+        if (go != null)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            player = go.transform;
         }
     }
-    public void FollowingNBack() 
+
+    public void Following()
     {
         if (ActualDistance < ThresholdDistance)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+        }
+    }
+
+    public void FollowingNBack()
+    {
+        if (ActualDistance < ThresholdDistance)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
         }
         else
         {

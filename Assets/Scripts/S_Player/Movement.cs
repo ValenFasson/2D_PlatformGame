@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using TMPro;
 
 public class Movement : MonoBehaviour
 {
@@ -6,9 +9,9 @@ public class Movement : MonoBehaviour
     public float moveSpeed = 6f;
 
     [Header("Salto")]
-    public float jumpForce = 9f;             // impulso inicial (puede ser más bajo que antes)
-    public float maxJumpHoldTime = 0.25f;    // tope de tiempo para "cargar" el salto
-    public float jumpHoldForce = 22f;        // fuerza continua mientras se mantiene ESPACIO
+    public float jumpForce = 9f;             
+    public float maxJumpHoldTime = 0.25f;    
+    public float jumpHoldForce = 22f;        
 
     [Header("Gravedad")]
     public float gravityScale = 3f;
@@ -27,16 +30,17 @@ public class Movement : MonoBehaviour
     bool wantJump;
     float baseScaleX = 1f;
 
-    // control del salto mantenido
+    
     bool isJumping;
     float jumpTime;
 
-    // Singleton del jugador (persistente entre escenas)
+    [SerializeField] string winSceneName = "WinScene";
+
     static Movement instance;
 
     void Awake()
     {
-        // Garantiza una única instancia del jugador
+   
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -59,12 +63,12 @@ public class Movement : MonoBehaviour
             wantJump = true;
         }
 
-        // cortar la carga si suelta el botón
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
         }
 
+        destroyOnWin(SceneManager.GetActiveScene());
         UpdateState();
         HandleFlip();
     }
@@ -167,10 +171,12 @@ public class Movement : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
+    private void destroyOnWin(Scene scene)
     {
-        if (groundCheck == null) return;
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance);
+        if (scene.name == winSceneName)
+        {
+            Destroy(gameObject);
+        }
     }
 }
+
