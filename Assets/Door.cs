@@ -34,11 +34,11 @@ public class Door : MonoBehaviour
 
         if (goBack)
         {
-            manager.GoBack();
+            //manager.GoBack();
         }
         else
         {
-            manager.GoToRandomNext();
+            //manager.GoToRandomNext();
         }
 
         StartCoroutine(Cooldown());
