@@ -6,6 +6,7 @@ using UnityEngine.Pool;
 
 public class EyeTurret : MonoBehaviour
 {
+    private ScriptableObject data;
     [SerializeField] private Transform player;
     [SerializeField] private Transform Point; // el punto donde salen las balas
     [SerializeField] private int rotationSpeed;
@@ -16,8 +17,6 @@ public class EyeTurret : MonoBehaviour
     private Quaternion initialRotation;
     private RaycastHit2D raycast;
     bool isSeeingPlayer;
-    
-
     public void Awake()
     {
         initialRotation = transform.rotation;
