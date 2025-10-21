@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5869927298265163553}
   - component: {fileID: 5869927298265163557}
   - component: {fileID: 5775132440490032139}
+  - component: {fileID: 998734392}
+  - component: {fileID: 998734393}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -152,7 +154,6 @@ MonoBehaviour:
   jumpForce: 10
   maxJumpHoldTime: 0.25
   jumpHoldForce: 22
-  gravityScale: 2
   fallMultiplier: 2
   lowJumpMultiplier: 6
   groundCheck: {fileID: 5869927299079877887}
@@ -160,6 +161,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundCheckDistance: 0.2
+  machine: {fileID: 998734392}
+  isJumping: 0
+  jumpTime: 0
 --- !u!114 &5775132440490032139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +179,35 @@ MonoBehaviour:
   inspectorSoundSystem: {fileID: 0}
   inspectorAnimationSystem: {fileID: 0}
   inspectorVisualEffectSystem: {fileID: 0}
+--- !u!114 &998734392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5869927298265163555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff1052639c399e4991f17ec972b1d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 5869927298265163557}
+  rb: {fileID: 5869927298265163552}
+--- !u!114 &998734393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5869927298265163555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
+    _objectReferences: []
 --- !u!1 &5869927299079877880
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +264,7 @@ Transform:
   m_GameObject: {fileID: 5869927299981481271}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.9, y: -1.4, z: 0}
-  m_LocalScale: {x: 0.89393, y: 0.89393, z: 0.89393}
+  m_LocalScale: {x: 1.0598434, y: 1.0598434, z: 1.0598434}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5869927298265163558}

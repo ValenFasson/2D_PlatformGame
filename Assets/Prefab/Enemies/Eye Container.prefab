@@ -162,7 +162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 942bfd6b8764c9c4599b3a47ae5b7552, type: 2}
+  player: {fileID: 0}
   Point: {fileID: 2617991064873917951}
+  BulletPool: {fileID: 0}
 --- !u!1 &6670448766206941290
 GameObject:
   m_ObjectHideFlags: 0
