@@ -35,9 +35,15 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         machine = GetComponent<StateMachine>();
-        // Garantiza una unica instancia del jugador
+        
         rb = GetComponent<Rigidbody2D>();
         baseScaleX = Mathf.Abs(transform.localScale.x) > 0.001f ? Mathf.Abs(transform.localScale.x) : 1f;
+        
+    }
+
+    private void Start()
+    {
+        machine.Initialize();
     }
 
     void Update()
@@ -51,19 +57,6 @@ public class PlayerMovement : MonoBehaviour
     {
         machine.UpdateState();
         // inicio de salto
-
-        // extra gravedad para mejor "feel"
-        if (rb.velocity.y < 0f)
-        {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1f) * Time.fixedDeltaTime;
-        }
-        else
-        {
-            if (rb.velocity.y > 0f && !Input.GetButton("Jump"))
-            {
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1f) * Time.fixedDeltaTime;
-            }
-        }
     }
 
     void HandleFlip()

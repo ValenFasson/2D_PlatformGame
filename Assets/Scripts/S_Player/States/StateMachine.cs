@@ -14,6 +14,8 @@ public class StateMachine : MonoBehaviour
 
     public void Awake()
     {
+        player = GetComponent<PlayerMovement>();
+        rb = player.rb;
         idleState = new IdleState(player);
         runningState = new RunningState(player);
         jumpingState = new JumpingState(player);  
