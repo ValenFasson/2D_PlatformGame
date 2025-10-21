@@ -17,9 +17,12 @@ public class EyeTurret : MonoBehaviour
     private Quaternion initialRotation;
     private RaycastHit2D raycast;
     bool isSeeingPlayer;
+    private IEnemy enemyFacadeUser;
     public void Awake()
     {
         initialRotation = transform.rotation;
+        // Cache IEnemy (EnemyFacadeUser) if present
+        enemyFacadeUser = GetComponent<IEnemy>();
     }
     public void Update()
     {
@@ -31,6 +34,8 @@ public class EyeTurret : MonoBehaviour
         cooldownCounter += Time.deltaTime;   
         if (isSeeingPlayer)
         {
+            // Notify facade that enemy is seeing the player
+            enemyFacadeUser?.TriggerFacade("Seeing!");
             Vector3 direction = player.position - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle); // -90 si tu sprite mira hacia arriba por defecto
@@ -61,6 +66,8 @@ public class EyeTurret : MonoBehaviour
         else 
         { 
             isSeeingPlayer = true;
+            // Notify facade that enemy is about to shoot
+            enemyFacadeUser?.TriggerFacade("Shooting!");
             AimPlayer(isSeeingPlayer); 
             Debug.DrawRay(Point.position, direction * 5f, Color.green); 
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    private IEnemy enemyFacadeUser;
     [SerializeField] private Transform[] MovementDots;
     [SerializeField] private float speed;
     private int nextDot = 1;
@@ -12,6 +13,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        if (enemyFacadeUser == null) enemyFacadeUser = GetComponent<IEnemy>();
         if (isLooping) 
         {
             direction = true;
@@ -49,6 +51,8 @@ public class EnemyMovement : MonoBehaviour
         {
             if (direction) { nextDot += 1; }
             else { nextDot -= 1; }
+            // Notify facade that enemy is patrolling (moved to next point)
+            enemyFacadeUser?.TriggerFacade("Patrolling!");
         }
     }
 }

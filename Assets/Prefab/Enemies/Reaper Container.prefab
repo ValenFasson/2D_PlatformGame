@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 815527508305637538}
   - component: {fileID: 815527508305637539}
+  - component: {fileID: 9001515852182846728}
+  - component: {fileID: 881486036980037996}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Untagged
@@ -49,6 +51,34 @@ MonoBehaviour:
   player: {fileID: 0}
   speed: 5
   canTurnBack: 0
+--- !u!114 &9001515852182846728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815527508305637541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e1d7de78ff10b4c884e52184469068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inspectorSoundSystem: {fileID: 0}
+  inspectorAnimationSystem: {fileID: 0}
+  inspectorVisualEffectSystem: {fileID: 0}
+--- !u!114 &881486036980037996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815527508305637541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f03d79d489cae45a014cb4a225049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyFacadeName: Reaper
 --- !u!1 &815527508506008956
 GameObject:
   m_ObjectHideFlags: 0

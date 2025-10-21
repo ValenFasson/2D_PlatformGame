@@ -41,6 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4816996923093548303}
   - component: {fileID: 4816996923093548300}
+  - component: {fileID: 6276212966098569389}
+  - component: {fileID: 5619358952892540536}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -84,6 +86,34 @@ MonoBehaviour:
   speed: 5
   direction: 1
   isLooping: 1
+--- !u!114 &6276212966098569389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816996923093548302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e1d7de78ff10b4c884e52184469068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inspectorSoundSystem: {fileID: 0}
+  inspectorAnimationSystem: {fileID: 0}
+  inspectorVisualEffectSystem: {fileID: 0}
+--- !u!114 &5619358952892540536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816996923093548302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f03d79d489cae45a014cb4a225049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyFacadeName: Ghost
 --- !u!1 &4816996923712742851
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class ReaperMovement : MonoBehaviour
     [SerializeField] public bool canTurnBack;
     private Vector2 StartPosition;
     private float ActualDistance;
+    private IEnemy enemyFacadeUser;
 
     public void Awake()
     {
@@ -17,6 +18,7 @@ public class ReaperMovement : MonoBehaviour
     }
     public void Update()
     {
+        if (enemyFacadeUser == null) enemyFacadeUser = GetComponent<IEnemy>();
         ActualDistance = Vector2.Distance(player.transform.position, transform.position); 
         
         if (!canTurnBack) 
@@ -34,6 +36,8 @@ public class ReaperMovement : MonoBehaviour
         if (ActualDistance < ThresholdDistance)
         {
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            // Notify facade: staying put (chasing)
+            enemyFacadeUser?.TriggerFacade("Staying put!");
         }
     }
     public void FollowingNBack() 
@@ -41,10 +45,14 @@ public class ReaperMovement : MonoBehaviour
         if (ActualDistance < ThresholdDistance)
         {
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            // Notify facade: staying put (chasing)
+            enemyFacadeUser?.TriggerFacade("Staying put!");
         }
         else
         {
             transform.position = Vector2.MoveTowards(transform.position, StartPosition, speed * Time.deltaTime);
+            // Notify facade: returning to start
+            enemyFacadeUser?.TriggerFacade("Returning!");
         }
     }
 }

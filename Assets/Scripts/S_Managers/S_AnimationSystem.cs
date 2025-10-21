@@ -6,6 +6,6 @@ public class S_AnimationSystem : MonoBehaviour
 {
     public void PlayAnimation(string animationName)
     {
-        Debug.Log($"reproduciendo animación: {animationName}");
+        Debug.Log($"reproduciendo animaciï¿½n: {animationName}");
     }
 }
