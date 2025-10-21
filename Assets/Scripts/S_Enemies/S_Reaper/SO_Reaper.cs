@@ -4,9 +4,8 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "SO_Reaper", menuName = "ScriptableObjects/enemies/Reaper", order = 2)]
-public class SO_Reaper : MonoBehaviour
+public class SO_Reaper : ScriptableObject
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private float speed;
-    [SerializeField] private float ThresholdDistance;
+    [SerializeField] public float speed;
+    [SerializeField] public float ThresholdDistance;
 }

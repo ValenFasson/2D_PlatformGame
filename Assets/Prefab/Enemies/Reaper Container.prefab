@@ -47,9 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25447e6b7ac3a4a41805c220e790c8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThresholdDistance: 10
-  player: {fileID: 0}
-  speed: 5
+  Data: {fileID: 11400000, guid: 4d0db8849850c304193ced04ec54dabd, type: 2}
   canTurnBack: 0
 --- !u!114 &9001515852182846728
 MonoBehaviour:

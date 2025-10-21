@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class ReaperMovement : MonoBehaviour
 {
-    [SerializeField] public float ThresholdDistance = 200f;
+    [SerializeField] private SO_Reaper Data; // ScriptableObject
     [SerializeField] public Transform player;
-    [SerializeField] public float speed;
     [SerializeField] public bool canTurnBack;
     private Vector2 StartPosition;
     private float ActualDistance;
-    private IEnemy enemyFacadeUser;
 
     public void Awake()
     {
         StartPosition = transform.position;
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        if(playerGO != null) 
+        {
+            player = playerGO.transform;
+        }
     }
     public void Update()
     {
-        if (enemyFacadeUser == null) enemyFacadeUser = GetComponent<IEnemy>();
-        ActualDistance = Vector2.Distance(player.transform.position, transform.position); 
+        ActualDistance = Vector2.Distance(player.position, transform.position); 
         
         if (!canTurnBack) 
         {
@@ -29,30 +31,23 @@ public class ReaperMovement : MonoBehaviour
         {
             FollowingNBack();
         }
-
     }
     public void Following() 
     {
-        if (ActualDistance < ThresholdDistance)
+        if (ActualDistance < Data.ThresholdDistance)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-            // Notify facade: staying put (chasing)
-            enemyFacadeUser?.TriggerFacade("Staying put!");
+            transform.position = Vector2.MoveTowards(transform.position, player.position, Data.speed * Time.deltaTime);
         }
     }
     public void FollowingNBack() 
     {
-        if (ActualDistance < ThresholdDistance)
+        if (ActualDistance < Data.ThresholdDistance)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-            // Notify facade: staying put (chasing)
-            enemyFacadeUser?.TriggerFacade("Staying put!");
+            transform.position = Vector2.MoveTowards(transform.position, player.position, Data.speed * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector2.MoveTowards(transform.position, StartPosition, speed * Time.deltaTime);
-            // Notify facade: returning to start
-            enemyFacadeUser?.TriggerFacade("Returning!");
+            transform.position = Vector2.MoveTowards(transform.position, StartPosition, Data.speed * Time.deltaTime);
         }
     }
 }
