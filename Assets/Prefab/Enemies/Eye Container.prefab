@@ -161,12 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095baebdb42731047b940b0092821799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  Data: {fileID: 11400000, guid: 942bfd6b8764c9c4599b3a47ae5b7552, type: 2}
   Point: {fileID: 2617991064873917951}
-  rotationSpeed: 5
-  speed: 10
-  cooldown: 2
-  bulletPool: {fileID: 0}
 --- !u!1 &6670448766206941290
 GameObject:
   m_ObjectHideFlags: 0

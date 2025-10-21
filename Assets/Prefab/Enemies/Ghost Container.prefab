@@ -76,12 +76,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cfc0cda1a6039a45a573db89a936a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 0df302c002a276d4b86aec4bf33edd2f, type: 2}
   MovementDots:
   - {fileID: 4816996923868988489}
   - {fileID: 4816996924254507781}
   - {fileID: 4816996924295689939}
   - {fileID: 4816996923012361480}
-  speed: 5
   direction: 1
   isLooping: 1
 --- !u!1 &4816996923712742851

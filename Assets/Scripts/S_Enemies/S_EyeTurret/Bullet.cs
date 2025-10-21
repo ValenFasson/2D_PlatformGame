@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 {
     public ObjectPool<Bullet> pool;
     private Transform target;
-    private int speed;
+    private float speed;
     private Vector2 direction;
     private Coroutine lifetimeCoroutine;
 
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
 
         ReleaseThis();
     }
-    public void GoToTarget(Transform player, int speed)
+    public void GoToTarget(Transform player, float speed)
     {
         this.target = player;
         this.speed = speed;

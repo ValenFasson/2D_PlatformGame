@@ -4,33 +4,43 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    [SerializeField] private SO_DevGho Data; //ScriptableObject
     [SerializeField] private Transform[] MovementDots;
-    [SerializeField] private float speed;
     private int nextDot = 1;
     [SerializeField] private bool direction = true; // T = + F = -
     [SerializeField] public bool isLooping = false;
 
     private void Update()
     {
-        if (isLooping) 
+        if (MovementDots == null || MovementDots.Length == 0) return;
+        if (nextDot < 0 || nextDot >= MovementDots.Length) nextDot = 0;
+
+        if (isLooping)
         {
             direction = true;
             Loop();
         }
-        else { PointToPoint();}
-       transform.position = Vector2.MoveTowards(transform.position, MovementDots[nextDot].position, speed * Time.deltaTime);
+        else
+        {
+            PointToPoint();
+        }
+
+        transform.position = Vector2.MoveTowards(
+            transform.position,
+            MovementDots[nextDot].position,
+            Data.speed * Time.deltaTime
+        );
     }
 
     private void Loop() 
     {
-        if (direction && nextDot >= MovementDots.Length) 
-        {
-            nextDot = 0;
-        }
-
         if (Vector2.Distance(transform.position, MovementDots[nextDot].position) < 0.1f)
         {
-            nextDot += 1;
+            nextDot++;
+            if (nextDot >= MovementDots.Length)
+            { 
+                nextDot = 0; 
+            }
         }
     }
 

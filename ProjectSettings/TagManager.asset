@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
+  - pool
   layers:
   - Default
   - TransparentFX

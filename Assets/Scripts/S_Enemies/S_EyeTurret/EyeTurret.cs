@@ -6,20 +6,27 @@ using UnityEngine.Pool;
 
 public class EyeTurret : MonoBehaviour
 {
-    private ScriptableObject data;
-    [SerializeField] private Transform player;
+    [SerializeField] private SO_EyeTurret Data; //ScriptableObject
+    [SerializeField] public Transform player;
     [SerializeField] private Transform Point; // el punto donde salen las balas
-    [SerializeField] private int rotationSpeed;
-    [SerializeField] private int speed;
-    [SerializeField] private float cooldown;
+    [SerializeField] public BulletPool BulletPool;
     private float cooldownCounter;
-    [SerializeField] public BulletPool bulletPool;
     private Quaternion initialRotation;
     private RaycastHit2D raycast;
     bool isSeeingPlayer;
     public void Awake()
     {
         initialRotation = transform.rotation;
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        if (playerGO != null)
+        {
+            player = playerGO.transform;
+        }
+        GameObject pool = GameObject.FindGameObjectWithTag("pool");
+        if (pool != null)
+        {
+            BulletPool = pool.GetComponent<BulletPool>();
+        }
     }
     public void Update()
     {
@@ -34,8 +41,8 @@ public class EyeTurret : MonoBehaviour
             Vector3 direction = player.position - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(0, 0, angle); // -90 si tu sprite mira hacia arriba por defecto
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            if (cooldownCounter >= cooldown) 
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Data.RotationSpeed * Time.deltaTime);
+            if (cooldownCounter >= Data.Cooldown) 
             {
                 ShootBullet();
                 cooldownCounter = 0;
@@ -44,7 +51,7 @@ public class EyeTurret : MonoBehaviour
         else 
         {
             cooldownCounter = 0;
-            transform.rotation = Quaternion.Lerp(transform.rotation, initialRotation, rotationSpeed * Time.deltaTime); //back to normal position
+            transform.rotation = Quaternion.Lerp(transform.rotation, initialRotation, Data.RotationSpeed * Time.deltaTime); //back to normal position
         }
     }
 
@@ -66,10 +73,10 @@ public class EyeTurret : MonoBehaviour
         }
     }
 
-    private void ShootBullet() 
+    private void ShootBullet()
     {
-        Bullet bullet = bulletPool.GetBullet();
+        Bullet bullet = BulletPool.GetBullet();
         bullet.transform.position = Point.position;
-        bullet.GoToTarget(player,speed);
+        bullet.GoToTarget(player, Data.BulletSpeed);
     }
 }
