@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Movimiento")]
     public float moveSpeed = 6f;
 
     [Header("Salto")]
-    public float jumpForce = 9f;             // impulso inicial (puede ser más bajo que antes)
+    public float jumpForce = 9f;             // impulso inicial (puede ser mï¿½s bajo que antes)
     public float maxJumpHoldTime = 0.25f;    // tope de tiempo para "cargar" el salto
     public float jumpHoldForce = 22f;        // fuerza continua mientras se mantiene ESPACIO
 
@@ -32,11 +32,11 @@ public class Movement : MonoBehaviour
     float jumpTime;
 
     // Singleton del jugador (persistente entre escenas)
-    static Movement instance;
+    static PlayerMovement instance;
 
     void Awake()
     {
-        // Garantiza una única instancia del jugador
+        // Garantiza una ï¿½nica instancia del jugador
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -59,7 +59,7 @@ public class Movement : MonoBehaviour
             wantJump = true;
         }
 
-        // cortar la carga si suelta el botón
+        // cortar la carga si suelta el botï¿½n
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
