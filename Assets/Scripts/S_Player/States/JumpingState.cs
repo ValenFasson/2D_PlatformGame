@@ -5,6 +5,7 @@ using UnityEngine;
 public class JumpingState : IState
 {
     PlayerMovement player;
+    bool isHoldingJump;
     public JumpingState(PlayerMovement player)
     {
         this.player = player;
@@ -12,34 +13,39 @@ public class JumpingState : IState
     public void UpdateState()
     {
         player.rb.velocity = new Vector2(player.inputX * player.moveSpeed, player.rb.velocity.y);
+        ApplyBetterJump();
 
-        while (Input.GetButton("Jump") && !IsGrounded()) 
+        // Mientras mantenga el botón y no haya pasado el tiempo máximo
+        if (isHoldingJump && Input.GetButton("Jump"))
         {
-            player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
-            player.rb.AddForce(Vector2.up * player.jumpForce, ForceMode2D.Impulse);
-            player.jumpTime = 0f;
+            player.jumpTime += Time.fixedDeltaTime;
 
-            if (!Input.GetButtonUp("Jump")) 
+            if (player.jumpTime < player.maxJumpHoldTime && player.rb.velocity.y > 0f)
             {
-                player.jumpTime += Time.fixedDeltaTime;
-                if (player.jumpTime < player.maxJumpHoldTime && player.rb.velocity.y >= 0f)
-                {
-                    player.rb.AddForce(Vector2.up * player.jumpHoldForce * Time.fixedDeltaTime, ForceMode2D.Force);
-                }
+                player.rb.AddForce(Vector2.up * player.jumpHoldForce * Time.fixedDeltaTime, ForceMode2D.Force);
             }
             else
             {
-                ApplyBetterJump();
-                // Falling
-                player.machine.ChangeState(player.machine.fallingState);
+                isHoldingJump = false;
             }
         }
-            //running
-            player.machine.ChangeState(player.machine.runningState);
+
+        // Cuando suelta el botón o empieza a caer
+        if (player.rb.velocity.y <= 0f)
+        {
+            player.machine.ChangeState(player.machine.fallingState);
+        }
     }
     public void Enter()
     {
         Debug.Log("JUMPING");
+
+        // Aplicar el impulso inicial
+        player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
+        player.rb.AddForce(Vector2.up * player.jumpForce, ForceMode2D.Impulse);
+
+        player.jumpTime = 0f;
+        isHoldingJump = true;
     }
     bool IsGrounded()
     {
