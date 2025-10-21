@@ -28,7 +28,6 @@ public class PlayerPickUpFacade : MonoBehaviour
         {
             string itemName = other.gameObject.name;
             pickUpFacade.ExecutePickup(itemName);
-            
         }
     }
 }
