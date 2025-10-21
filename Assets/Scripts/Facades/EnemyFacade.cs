@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFacade : MonoBehaviour
+public class EnemyFacade
 {
     private S_SoundSystem soundSystem;
     private S_AnimationSystem animationSystem;
@@ -17,8 +17,9 @@ public class EnemyFacade : MonoBehaviour
 
     public void ExecuteEnemy(string enemyName)
     {
-        soundSystem.PlaySound(enemyName + "_enemy");
-        animationSystem.PlayAnimation(enemyName + "_enemy");
-        visualEffectSystem.PlayEffect(enemyName + "_enemy");
+        // Guarded calls
+        soundSystem?.PlaySound(enemyName + "_enemy");
+        animationSystem?.PlayAnimation(enemyName + "_enemy");
+        visualEffectSystem?.PlayEffect(enemyName + "_enemy");
     }
 }
