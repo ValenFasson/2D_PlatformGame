@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PickUpFacade : MonoBehaviour
 {
-    private SoundSystem soundSystem;
-    private AnimationSystem animationSystem;
-    private VisualEffectSystem visualEffectSystem;
+    private S_SoundSystem soundSystem;
+    private S_AnimationSystem animationSystem;
+    private S_VisualEffectSystem visualEffectSystem;
 
 
-    public PickUpFacade(SoundSystem soundSys, AnimationSystem animationSys, VisualEffectSystem visualEffectSys)
+    public PickUpFacade(S_SoundSystem soundSys, S_AnimationSystem animationSys, S_VisualEffectSystem visualEffectSys)
     {
         this.soundSystem = soundSys;
         this.animationSystem = animationSys;
@@ -22,6 +22,5 @@ public class PickUpFacade : MonoBehaviour
         animationSystem.PlayAnimation(itemName + "_pickup");
         visualEffectSystem.PlayEffect(itemName + "_pickup");
     }
-
     
 }
