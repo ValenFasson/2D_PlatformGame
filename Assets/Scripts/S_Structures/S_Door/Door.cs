@@ -5,8 +5,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [Header("Door")]
-    public bool goBack = false;          // true = vuelve a la escena anterior, false = va a una aleatoria siguiente
-    public float reuseDelay = 0.5f;      // evita múltiples cambios por el mismo contacto
+    public bool goBack = false;
+    public float reuseDelay = 0.5f;
 
     bool canUse = true;
 
@@ -15,14 +15,21 @@ public class Door : MonoBehaviour
         var col = GetComponent<Collider2D>();
         if (col != null)
         {
-            col.isTrigger = true; // la puerta funciona por trigger
+            col.isTrigger = true;
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!canUse) return;
-        if (!other.CompareTag("Player")) return;
+        if (!canUse)
+        {
+            return;
+        }
+
+        if (!other.CompareTag("Player"))
+        {
+            return;
+        }
 
         UseDoor();
     }
@@ -30,15 +37,15 @@ public class Door : MonoBehaviour
     void UseDoor()
     {
         var manager = FindObjectOfType<SceneStackManager>();
-        if (manager == null) return;
-
-        if (goBack)
+        if (manager == null)
         {
-            //manager.GoBack();
+            return;
         }
-        else
+
+        string nextScene = manager.GetScene(!goBack);
+        if (!string.IsNullOrEmpty(nextScene))
         {
-            //manager.GoToRandomNext();
+            manager.LoadScene(nextScene);
         }
 
         StartCoroutine(Cooldown());

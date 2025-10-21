@@ -1,19 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 
 public class SceneStackManager : MonoBehaviour
 {
     [SerializeField] private string[] allRooms = { "Nivel1", "Nivel2", "Nivel3" };
     public string[] roomScenes;
-    public string[] history;
     private int index = 0;
     public int runSize = 3;
-    int numeroRand;
-    bool foundScene;
     public string entrySpawnName = "Spawn_Entry";
     public string returnSpawnName = "Spawn_Return";
+
+    public bool isReturn = false;
+
     static SceneStackManager instance;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -21,53 +23,117 @@ public class SceneStackManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         ChargeStack();
     }
-    public void ChargeStack() 
+
+    void OnDestroy()
     {
-        while (roomScenes.Length == runSize) 
-        { 
-            foundScene = false;
-            numeroRand = Random.Range(0, allRooms.Length -1);
-            for (int i = 0; i < history.Length; i++) 
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ManageScene();
+    }
+
+    // Genera un nuevo conjunto de niveles aleatorios sin repetir consecutivamente
+    public void ChargeStack()
+    {
+        if (roomScenes == null || roomScenes.Length != runSize)
+        {
+            roomScenes = new string[runSize];
+        }
+
+        index = 0;
+
+        string lastRoom = null;
+        int filled = 0;
+
+        while (filled < runSize)
+        {
+            int numeroRand = Random.Range(0, allRooms.Length);
+            string candidate = allRooms[numeroRand];
+
+            if (candidate != lastRoom)
             {
-                if (allRooms[numeroRand] == history[i]) 
-                {
-                    foundScene = true;
-                }
-            }
-            if (!foundScene) 
-            {
-                roomScenes[index] = allRooms[numeroRand];
-                index++;
+                roomScenes[filled] = candidate;
+                lastRoom = candidate;
+                filled++;
             }
         }
     }
-    public string GetScene(bool forward) 
+
+    // Devuelve la siguiente o anterior escena según "forward"
+    public string GetScene(bool forward)
     {
-        if (forward) 
+        if (forward)
         {
             index++;
         }
-        else { index--; }
+        else
+        {
+            index--;
+        }
+
+        isReturn = !forward;
+
+        if (index < 0)
+        {
+            index = 0;
+        }
+
+        if (index >= roomScenes.Length)
+        {
+            index = roomScenes.Length - 1;
+        }
+
         return roomScenes[index];
     }
-    public void LoadScene(string scene) 
+
+    public void LoadScene(string scene)
     {
         SceneManager.LoadScene(scene);
     }
-    
-    public void ManageScene() 
+
+    // Posiciona al jugador según si va hacia adelante o hacia atrás
+    public void ManageScene()
     {
-        /*if (isReturn)
+        if (isReturn)
         {
             PlacePlayer(returnSpawnName);
         }
         else
         {
             PlacePlayer(entrySpawnName);
-        }*/
+        }
+    }
+
+    void PlacePlayer(string spawnName)
+    {
+        GameObject spawn = GameObject.Find(spawnName);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        player.transform.position = spawn.transform.position;
+        player.transform.rotation = spawn.transform.rotation;
+
+        Rigidbody2D rb2d = player.GetComponent<Rigidbody2D>();
+        if (rb2d != null)
+        {
+            rb2d.velocity = Vector2.zero;
+            rb2d.angularVelocity = 0f;
+        }
+
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb2d.angularVelocity = 0f;
+        }
     }
 }
