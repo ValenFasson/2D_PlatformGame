@@ -6,6 +6,6 @@ public class S_VisualEffectSystem : MonoBehaviour
 {
     public void PlayEffect(string effectName)
     {
-        Debug.Log($"Activando efecto visual: {effectName}");
+        //Debug.Log($"Activando efecto visual: {effectName}");
     }
 }

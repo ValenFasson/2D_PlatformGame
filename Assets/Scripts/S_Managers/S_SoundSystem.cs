@@ -6,6 +6,6 @@ public class S_SoundSystem : MonoBehaviour
 {
     public void PlaySound(string soundName)
     {
-        Debug.Log($"Reproduciendo sonido: {soundName}");
+        //Debug.Log($"Reproduciendo sonido: {soundName}");
     }
 }
