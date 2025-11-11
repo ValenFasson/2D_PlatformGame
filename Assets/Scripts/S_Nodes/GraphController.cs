@@ -1,66 +1,91 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine;
 
-public class GraphController : MonoBehaviour
+public class GraphController : MonoBehaviour, IGraphTDA
 {
-    public List<GraphNode> nodes = new List<GraphNode>();
+    public GraphNode[] nodes;
+    private const float INF = 999999f;
 
-    void Awake()
+    public void InicializarGrafo() { }
+    public void AgregarVertice(int v) { }
+    public void EliminarVertice(int v) { }
+
+    public void AgregarArista(int v1, int v2, float peso)
     {
-        nodes.Clear();
-        foreach (Transform child in transform)
-        {
-            GraphNode n = child.GetComponent<GraphNode>();
-            if (n != null)
-                nodes.Add(n);
-        }
+        var nodeA = nodes[v1];
+        var nodeB = nodes[v2];
+        var newConn = new GraphConnection { targetNode = nodeB, weight = peso };
+        var list = new GraphConnection[nodeA.connections.Length + 1];
+        nodeA.connections.CopyTo(list, 0);
+        list[^1] = newConn;
+        nodeA.connections = list;
     }
 
-    // 🔹 Versión simplificada de BFS: encuentra un camino usando conexiones directas
-    public List<GraphNode> FindPathSimple(int startId, int endId)
+    public void EliminarArista(int v1, int v2)
     {
-        List<GraphNode> path = new List<GraphNode>();
-        if (startId == endId)
+        var nodeA = nodes[v1];
+        nodeA.connections = System.Array.FindAll(nodeA.connections, c => c.targetNode.nodeId != v2);
+    }
+
+    public bool ExisteArista(int v1, int v2)
+    {
+        foreach (var c in nodes[v1].connections)
+            if (c.targetNode.nodeId == v2) return true;
+        return false;
+    }
+
+    public float PesoArista(int v1, int v2)
+    {
+        foreach (var c in nodes[v1].connections)
+            if (c.targetNode.nodeId == v2) return c.weight;
+        return INF;
+    }
+
+    public int VerticeMasCercano(Vector2 pos)
+    {
+        float min = INF; int id = 0;
+        for (int i = 0; i < nodes.Length; i++)
         {
-            path.Add(nodes[startId]);
-            return path;
+            float d = Vector2.Distance(pos, nodes[i].transform.position);
+            if (d < min) { min = d; id = i; }
         }
+        return id;
+    }
 
-        bool[] visited = new bool[nodes.Count];
-        int[] previous = new int[nodes.Count];
+    public int[] Dijkstra(int start, int end)
+    {
+        int n = nodes.Length;
+        bool[] vis = new bool[n];
+        float[] dist = new float[n];
+        int[] prev = new int[n];
+        for (int i = 0; i < n; i++) { dist[i] = INF; prev[i] = -1; }
+        dist[start] = 0;
 
-        for (int i = 0; i < previous.Length; i++)
-            previous[i] = -1;
-
-        Queue<int> queue = new Queue<int>();
-        queue.Enqueue(startId);
-        visited[startId] = true;
-
-        while (queue.Count > 0)
+        for (int _ = 0; _ < n; _++)
         {
-            int current = queue.Dequeue();
-            GraphNode node = nodes[current];
+            int u = MinDistance(dist, vis, n);
+            if (u == -1) break;
+            vis[u] = true;
 
-            foreach (GraphNode neighbor in node.connectedNodes)
+            foreach (var c in nodes[u].connections)
             {
-                int nid = neighbor.nodeId;
-                if (!visited[nid])
-                {
-                    visited[nid] = true;
-                    previous[nid] = current;
-                    queue.Enqueue(nid);
-
-                    if (nid == endId)
-                    {
-                        // reconstrucción del camino
-                        List<GraphNode> fullPath = new List<GraphNode>();
-                        for (int at = endId; at != -1; at = previous[at])
-                            fullPath.Insert(0, nodes[at]);
-                        return fullPath;
-                    }
-                }
+                int v = c.targetNode.nodeId;
+                if (vis[v]) continue;
+                float alt = dist[u] + c.weight;
+                if (alt < dist[v]) { dist[v] = alt; prev[v] = u; }
             }
         }
-        return path;
+
+        System.Collections.Generic.List<int> path = new();
+        for (int at = end; at != -1; at = prev[at]) path.Add(at);
+        path.Reverse();
+        return path.ToArray();
+    }
+
+    private int MinDistance(float[] d, bool[] vis, int n)
+    {
+        float min = INF; int idx = -1;
+        for (int i = 0; i < n; i++)
+            if (!vis[i] && d[i] <= min) { min = d[i]; idx = i; }
+        return idx;
     }
 }
