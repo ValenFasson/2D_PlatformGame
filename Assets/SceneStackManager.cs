@@ -1,17 +1,24 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneStackManager : MonoBehaviour
 {
+    [Header("Rooms")]
     [SerializeField] private string[] allRooms = { "Nivel1", "Nivel2", "Nivel3" };
     public string[] roomScenes;
-    private int index = 0;
     public int runSize = 3;
+
+    [Header("Spawns")]
     public string entrySpawnName = "Spawn_Entry";
     public string returnSpawnName = "Spawn_Return";
 
+    [Header("Final Scene")]
+    [Tooltip("Escena a la que se irá cuando termine la rotación completa")]
+    public string endSceneName = "ScoreBoard";
+
+    private int index = 0;
     public bool isReturn = false;
 
     static SceneStackManager instance;
@@ -26,7 +33,6 @@ public class SceneStackManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
-
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         ChargeStack();
@@ -42,36 +48,29 @@ public class SceneStackManager : MonoBehaviour
         ManageScene();
     }
 
-    // Genera un nuevo conjunto de niveles aleatorios sin repetir consecutivamente
+    // Genera un nuevo conjunto de niveles con todos los niveles aleatorizados
     public void ChargeStack()
     {
-        if (roomScenes == null || roomScenes.Length != runSize)
+        List<string> shuffled = new List<string>(allRooms);
+
+        // Mezcla aleatoria de todos los niveles (Fisher-Yates)
+        for (int i = 0; i < shuffled.Count; i++)
         {
-            roomScenes = new string[runSize];
+            int randomIndex = Random.Range(i, shuffled.Count);
+            string temp = shuffled[i];
+            shuffled[i] = shuffled[randomIndex];
+            shuffled[randomIndex] = temp;
         }
 
+        roomScenes = shuffled.ToArray();
         index = 0;
-
-        string lastRoom = null;
-        int filled = 0;
-
-        while (filled < runSize)
-        {
-            int numeroRand = Random.Range(0, allRooms.Length);
-            string candidate = allRooms[numeroRand];
-
-            if (candidate != lastRoom)
-            {
-                roomScenes[filled] = candidate;
-                lastRoom = candidate;
-                filled++;
-            }
-        }
     }
 
-    // Devuelve la siguiente o anterior escena seg�n "forward"
+    // Devuelve la siguiente o anterior escena según "forward"
     public string GetScene(bool forward)
     {
+        isReturn = !forward;
+
         if (forward)
         {
             index++;
@@ -81,16 +80,18 @@ public class SceneStackManager : MonoBehaviour
             index--;
         }
 
-        isReturn = !forward;
+        // 🔹 Si ya completó la rotación, va directo a la escena final
+        if (forward && index >= roomScenes.Length)
+        {
+            index = roomScenes.Length - 1; // Mantiene índice válido
+            LoadScene(endSceneName);
+            return null;
+        }
 
+        // Evita valores fuera de rango
         if (index < 0)
         {
             index = 0;
-        }
-
-        if (index >= roomScenes.Length)
-        {
-            index = roomScenes.Length - 1;
         }
 
         return roomScenes[index];
@@ -98,26 +99,26 @@ public class SceneStackManager : MonoBehaviour
 
     public void LoadScene(string scene)
     {
-        SceneManager.LoadScene(scene);
+        if (!string.IsNullOrEmpty(scene))
+        {
+            SceneManager.LoadScene(scene);
+        }
     }
 
-    // Posiciona al jugador seg�n si va hacia adelante o hacia atr�s
     public void ManageScene()
     {
         if (isReturn)
-        {
             PlacePlayer(returnSpawnName);
-        }
         else
-        {
             PlacePlayer(entrySpawnName);
-        }
     }
 
     void PlacePlayer(string spawnName)
     {
         GameObject spawn = GameObject.Find(spawnName);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (spawn == null || player == null) return;
 
         player.transform.position = spawn.transform.position;
         player.transform.rotation = spawn.transform.rotation;

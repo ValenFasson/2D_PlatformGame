@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Nivel5.unity
     guid: ef0f30198c755784b8e75ee20c7722cf
+  - enabled: 1
+    path: Assets/Scenes/ScoreBoard.unity
+    guid: a9ab90ffe22cfd04d91567e4b3c39baf
   m_configObjects: {}
