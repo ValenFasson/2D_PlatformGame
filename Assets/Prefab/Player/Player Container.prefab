@@ -153,7 +153,7 @@ MonoBehaviour:
   jumpForce: 10
   maxJumpHoldTime: 0.25
   jumpHoldForce: 22
-  fallMultiplier: 2
+  fallMultiplier: 1.5
   lowJumpMultiplier: 6
   groundCheck: {fileID: 5869927299079877887}
   groundLayer:

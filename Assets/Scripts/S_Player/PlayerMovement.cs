@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 6f;
 
     [Header("Salto")]
-    public float jumpForce = 9f;             // impulso inicial (puede ser m�s bajo que antes)
+    public float jumpForce = 9f;             // impulso inicial (puede ser mas bajo que antes)
     public float maxJumpHoldTime = 0.25f;    // tope de tiempo para "cargar" el salto
-    public float jumpHoldForce = 22f;        // fuerza continua mientras se mantiene ESPACIO
+    public float jumpHoldForce = 22f;        // fuerza continua mientras se mantiene ESPACIOmy
 
     [Header("Gravedad")]
     public float fallMultiplier = 2.5f;
@@ -51,13 +51,11 @@ public class PlayerMovement : MonoBehaviour
         inputX = Input.GetAxis("Horizontal");
         // cortar la carga si suelta el bot�n
         HandleFlip();
-    }
 
-    void FixedUpdate()
-    {
         machine.UpdateState();
         // inicio de salto
     }
+
 
     void HandleFlip()
     {
@@ -67,6 +65,19 @@ public class PlayerMovement : MonoBehaviour
             var s = transform.localScale;
             transform.localScale = new Vector3(baseScaleX * dir, s.y, s.z);
         }
+    }
+
+    public bool IsGrounded()
+    {
+        if (groundCheck == null)
+            return false;
+
+        return Physics2D.Raycast(
+            groundCheck.position,
+            Vector2.down,
+            groundCheckDistance,
+            groundLayer
+        );
     }
 
     void OnDrawGizmosSelected()
