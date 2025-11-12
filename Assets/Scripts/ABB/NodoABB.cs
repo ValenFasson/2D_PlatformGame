@@ -9,7 +9,7 @@ public class NodoABB : MonoBehaviour
     [SerializeField] public NodoABB hijoIzq;
     [SerializeField] public NodoABB hijoDer;
     [SerializeField] public TextMeshProUGUI TMP;
-    public void Start()
+    public void Update()
     {
         TMP.text = info.ToString();
     }

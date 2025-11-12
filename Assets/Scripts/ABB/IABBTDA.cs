@@ -5,8 +5,8 @@ using UnityEngine;
 public interface IABBTDA
 {
     int Raiz();
-    NodoABB HijoIzq();
-    NodoABB HijoDer();
+    public NodoABB HijoIzq(NodoABB nodo);
+    public NodoABB HijoDer(NodoABB nodo);
     bool ArbolVacio();
     void InicializarArbol();
     void AgregarElem(ref NodoABB n, int x);

@@ -133,14 +133,14 @@ public class ABB : MonoBehaviour , IABBTDA
         raiz = null;
     }
 
-    public NodoABB HijoDer()
+    public NodoABB HijoDer(NodoABB nodo)
     {
-        return raiz.hijoDer;
+        return nodo.hijoDer;
     }
 
-    public NodoABB HijoIzq()
+    public NodoABB HijoIzq(NodoABB nodo)
     {
-        return raiz.hijoIzq;
+        return nodo.hijoIzq;
     }
 
     public void AgregarElem(ref NodoABB raiz, int x)
