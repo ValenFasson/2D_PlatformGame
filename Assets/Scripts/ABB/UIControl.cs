@@ -14,11 +14,11 @@ public class UIControl : MonoBehaviour
     [SerializeField] private TextMeshProUGUI valorEnPantalla;
     public void Game()
     {
-        if (!valueAssigned) // ?? Solo entra una vez
+        if (!valueAssigned) 
         {
             rndValue = Number();
             Arbol.AgregarElem(ref Arbol.raiz, rndValue);
-            valueAssigned = true; // ?? bloquea futuras asignaciones
+            valueAssigned = true; 
             Debug.Log("Número asignado: " + rndValue);
         }
         else
