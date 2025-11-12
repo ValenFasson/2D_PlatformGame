@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIControl : MonoBehaviour
@@ -8,10 +9,33 @@ public class UIControl : MonoBehaviour
     System.Random rnd = new System.Random();
     private int rndValue;
     private List<int> AllValues;
-    public void Game() 
-    {
+    private bool valueAssigned = false;
 
+    [SerializeField] private TextMeshProUGUI valorEnPantalla;
+    public void Game()
+    {
+        if (!valueAssigned) // ?? Solo entra una vez
+        {
+            rndValue = Number();
+            Arbol.AgregarElem(ref Arbol.raiz, rndValue);
+            valueAssigned = true; // ?? bloquea futuras asignaciones
+            Debug.Log("Número asignado: " + rndValue);
+        }
+        else
+        {
+            Debug.Log("Ya se asignó un valor previamente.");
+        }
     }
+
+    public void Update()
+    {
+        valorEnPantalla.text = rndValue.ToString();
+    }
+
+
+
+
+
     public void Awake()
     {
         AllValues = new List<int>();    
@@ -19,14 +43,17 @@ public class UIControl : MonoBehaviour
         Arbol.raiz.info = rndValue;
         AllValues.Add(rndValue);
     }
-
     public int Number() 
     {
-        rndValue = rnd.Next(1, 10);
-        foreach (int value in AllValues) 
+        int newValue;
+        do
         {
-            return value;
+            newValue = rnd.Next(1, 10);
         }
-        return 0;
+        while (AllValues.Contains(newValue)); // si ya está, vuelve a generar
+
+        AllValues.Add(newValue); // lo guardamos para evitar repetición futura
+        return newValue;
     }
+
 }
