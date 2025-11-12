@@ -32,19 +32,26 @@ public class UIControl : MonoBehaviour
         {
             Debug.Log("LMB");
             nodo = Arbol.HijoIzq(nodo);
+            Info();
         }
         if (Input.GetMouseButtonDown(1)) //RMB
         {
             Debug.Log("RMB");
             nodo = Arbol.HijoDer(nodo);
+            Info();
         }
-        if (Input.GetKey(KeyCode.R)) //LMB
+        if (Input.GetKey(KeyCode.R) && nodo != Arbol.raiz) //LMB
         {
             Debug.Log("Guardado");
             nodo.info = rndValue;
             valueAssigned = false;
 
         }
+    }
+
+    public void Info() 
+    {
+        Debug.Log($"Estoy en el nodo{nodo.info}");
     }
 
     public void Awake()

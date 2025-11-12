@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ABB : MonoBehaviour , IABBTDA
+public class ABB : MonoBehaviour,  IABBTDA
 {
     [SerializeField] public NodoABB raiz;
 
