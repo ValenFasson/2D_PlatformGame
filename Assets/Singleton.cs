@@ -30,9 +30,19 @@ public class Singleton : MonoBehaviour
     }
     public void Update()
     {
-        scoreText.text = CurrentScore.ToString();
-        timerText.text = TimerCounter.ToString("f1");
-        TimerCounter -= Time.deltaTime;
+        if(SceneManager.GetActiveScene().name != "ScoreBoard") 
+        {
+            scoreText.gameObject.SetActive(true);
+            timerText.gameObject.SetActive(true);
+            scoreText.text = CurrentScore.ToString();
+            timerText.text = TimerCounter.ToString("f1");
+            TimerCounter -= Time.deltaTime;
+        }
+        else 
+        {
+            scoreText.gameObject.SetActive(false);
+            timerText.gameObject.SetActive(false);
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -42,7 +52,6 @@ public class Singleton : MonoBehaviour
 
     private void OnSceneChanged(Scene oldScene, Scene newScene) //una funcion propia de una libreria
     {
-        //Debug.Log($"Cambiamos de escena: {oldScene.name} A la escena {newScene.name}");
         if (SceneManager.GetActiveScene().name == "Bootstrap")
         {
             TimerCounter = maxTime;

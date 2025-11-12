@@ -5,8 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class UIScoreBoard : MonoBehaviour
 {
-    public void TryAgain() 
+    private SceneStackManager managerDeRun;
+
+    void Start()
     {
-        SceneManager.LoadScene("Bootstrap");
+        managerDeRun = FindObjectOfType<SceneStackManager>();
+    }
+
+    public void TryAgain()
+    {
+        if (managerDeRun != null)
+        {
+            managerDeRun.resetRun();
+        }
+
+        SceneManager.LoadScene("Bootstrap"); 
     }
 }

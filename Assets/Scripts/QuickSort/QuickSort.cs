@@ -89,18 +89,18 @@ public class QuickSort : MonoBehaviour
 
         if (count >= 1)
         {
-            firstPlaceName.text = playerArry[count - 1].name;
-            firstPlaceScore.text = playerArry[count - 1].score.ToString();
+            firstPlaceName.text = playerArry[0].name;
+            firstPlaceScore.text = playerArry[0].score.ToString();
         }
         if (count >= 2)
         {
-            secondPlaceName.text = playerArry[count - 2].name;
-            secondPlaceScore.text = playerArry[count - 2].score.ToString();
+            secondPlaceName.text = playerArry[1].name;
+            secondPlaceScore.text = playerArry[1].score.ToString();
         }
         if (count >= 3)
         {
-            ThirdPlaceName.text = playerArry[count - 3].name;
-            ThirdPlaceScore.text = playerArry[count - 3].score.ToString();
+            ThirdPlaceName.text = playerArry[2].name;
+            ThirdPlaceScore.text = playerArry[2].score.ToString();
         }
     }
 

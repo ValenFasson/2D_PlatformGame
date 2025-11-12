@@ -137,4 +137,10 @@ public class SceneStackManager : MonoBehaviour
             rb2d.angularVelocity = 0f;
         }
     }
+    public void resetRun() 
+    {
+        index = 0;
+        isReturn = false;
+        ChargeStack();
+    }
 }
