@@ -16,8 +16,14 @@ public class CoinPickUpFacade : MonoBehaviour // <----- Este es el cliente
 
     [SerializeField] private int scoreValueForThisCoin;
 
-    private void Start()
+
+    public void Awake()
     {
+        StartCoroutine(AwakeCoin());
+    }
+    private IEnumerator AwakeCoin()
+    {
+        yield return null; yield return null;yield return null;
         //Busca los subsistemas en escena o si ya los tienen asignados (NO LOS CREA), los subsistemas ya deben existir en escena ahi viven
         var soundSystem = inspectorSoundSystem != null ? inspectorSoundSystem : FindObjectOfType<S_SoundSystem>();
         var animationSystem = inspectorAnimationSystem != null ? inspectorAnimationSystem : FindObjectOfType<S_AnimationSystem>();
@@ -25,6 +31,8 @@ public class CoinPickUpFacade : MonoBehaviour // <----- Este es el cliente
         var scoreSystem = inspectorScoreSystem != null ? inspectorScoreSystem : FindObjectOfType<S_ScoreSystem>();
         pickUpFacade = new PickUpFacade(soundSystem, animationSystem, visualEffectSystem, scoreSystem);
         pickUpFacade.scoreAux = scoreValueForThisCoin;
+
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

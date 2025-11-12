@@ -26,11 +26,11 @@ public class QuickSort : MonoBehaviour
         // a la izquierda y los mayores a la derecha
         while (true)
         {
-            while (arr[left].score < pivot)
+            while (arr[left].score > pivot)  // en lugar de <
             {
                 left++;
             }
-            while (arr[right].score > pivot)
+            while (arr[right].score < pivot) // en lugar de >
             {
                 right--;
             }
@@ -53,7 +53,7 @@ public class QuickSort : MonoBehaviour
     {
         int pivot;
         if (left < right)
-        {
+        {   
             pivot = Partition(arr, left, right);
             if (pivot > 1)
             {
@@ -73,28 +73,42 @@ public class QuickSort : MonoBehaviour
         playerArry = QuickInfo.playersList.ToArray();
     }
 
-    public void setTextScore() 
+    public void setTextScore()
     {
-        firstPlaceName.text = playerArry[playerArry.Length - 1].name.ToString();
-        firstPlaceName.text = playerArry[playerArry.Length - 1].score.ToString();
-        secondPlaceName.text = playerArry[playerArry.Length - 2].name.ToString();
-        secondPlaceScore.text = playerArry[playerArry.Length - 2].score.ToString();
-        ThirdPlaceName.text = playerArry[playerArry.Length - 3].name.ToString();
-        ThirdPlaceScore.text = playerArry[playerArry.Length - 3].score.ToString();
+        int count = playerArry.Length;
+        Debug.Log("Cantidad de jugadores en array: " + count);
+
+        for (int i = 0; i < count; i++)
+            Debug.Log($"[{i}] {playerArry[i].name} - {playerArry[i].score}");
+
+        if (count == 0)
+        {
+            Debug.LogWarning("No hay jugadores en la lista.");
+            return;
+        }
+
+        if (count >= 1)
+        {
+            firstPlaceName.text = playerArry[count - 1].name;
+            firstPlaceScore.text = playerArry[count - 1].score.ToString();
+        }
+        if (count >= 2)
+        {
+            secondPlaceName.text = playerArry[count - 2].name;
+            secondPlaceScore.text = playerArry[count - 2].score.ToString();
+        }
+        if (count >= 3)
+        {
+            ThirdPlaceName.text = playerArry[count - 3].name;
+            ThirdPlaceScore.text = playerArry[count - 3].score.ToString();
+        }
     }
 
-    public void Awake()
+    public IEnumerator Start()
     {
+        yield return new WaitForSeconds(0.2f);
         LoadArry();
         quickSort(playerArry, 0, playerArry.Length - 1);
-        imprimirVector(playerArry); // <--- solo de forma didactica
         setTextScore();
-    }
-    static void imprimirVector(QuickInfo.Player[] vec)
-    {
-        for (int i = 0; i < vec.Length; i++)
-        {
-            Debug.Log(vec[i].name + " " + vec[i].score);
-        }
     }
 }

@@ -14,7 +14,7 @@ public class AirborneState : IState
 
     public void Enter()
     {
-        Debug.Log("AIRBORNE");
+        //Debug.Log("AIRBORNE");
         // reset vertical then apply impulse
         player.rb.velocity = new Vector2(player.rb.velocity.x, 0f);
         player.rb.AddForce(Vector2.up * player.jumpForce, ForceMode2D.Impulse);

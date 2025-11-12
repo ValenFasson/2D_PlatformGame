@@ -35,7 +35,7 @@ public class StateMachine : MonoBehaviour
     public void ChangeState(IState newState)
     {
         currentState = newState;
-        Debug.Log($"? Entering State: {newState.GetType().Name}");
+        //Debug.Log($"? Entering State: {newState.GetType().Name}");
         currentState.Enter();
     }
 }
