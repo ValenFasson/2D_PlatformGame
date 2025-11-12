@@ -1540,7 +1540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Arbol: {fileID: 1698503571}
   valorEnPantalla: {fileID: 338059342}
-  nodo: {fileID: 0}
+  nodo: {fileID: 34318522}
 --- !u!114 &1782690330
 MonoBehaviour:
   m_ObjectHideFlags: 0
