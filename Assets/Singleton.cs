@@ -16,8 +16,6 @@ public class Singleton : MonoBehaviour
 
     public string playerName;
     public int CurrentScore;
-
-
     void Awake()
     {
         if (instance != null && instance != this)
@@ -32,9 +30,19 @@ public class Singleton : MonoBehaviour
     }
     public void Update()
     {
-        scoreText.text = CurrentScore.ToString();
-        timerText.text = TimerCounter.ToString("f1");
-        TimerCounter -= Time.deltaTime;
+        if(SceneManager.GetActiveScene().name != "ScoreBoard") 
+        {
+            scoreText.gameObject.SetActive(true);
+            timerText.gameObject.SetActive(true);
+            scoreText.text = CurrentScore.ToString();
+            timerText.text = TimerCounter.ToString("f1");
+            TimerCounter -= Time.deltaTime;
+        }
+        else 
+        {
+            scoreText.gameObject.SetActive(false);
+            timerText.gameObject.SetActive(false);
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -44,16 +52,17 @@ public class Singleton : MonoBehaviour
 
     private void OnSceneChanged(Scene oldScene, Scene newScene) //una funcion propia de una libreria
     {
-        //Debug.Log($"Cambiamos de escena: {oldScene.name} A la escena {newScene.name}");
         if (SceneManager.GetActiveScene().name == "Bootstrap")
-        { 
+        {
+            TimerCounter = maxTime;
             return;
         }
         else if(SceneManager.GetActiveScene().name == "ScoreBoard") 
         {
-            QuickInfo.QSinfo.newPlayer(playerName, CurrentScore); // guardamos la info aca
+            QuickInfo.QSinfo.newPlayer(playerName, CurrentScore);
             playerName = "";
-            CurrentScore = 0; // y reseteamos
+            CurrentScore = 0;
+            return;
         }
             //Aca se puede ajustar todas las variables que quiero que se reinicien en cada cambio de escena
             CurrentScore += Mathf.FloorToInt(TimerCounter);

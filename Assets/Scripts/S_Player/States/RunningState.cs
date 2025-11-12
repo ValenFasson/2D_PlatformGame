@@ -11,7 +11,7 @@ public class RunningState : IState
 
     public void Enter()
     {
-        Debug.Log("RUNNING");
+        //Debug.Log("RUNNING");
     }
 
     public void UpdateState()
