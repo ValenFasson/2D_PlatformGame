@@ -48,11 +48,16 @@ MonoBehaviour:
   - Nivel1
   - Nivel2
   - Nivel3
+  - Nivel5
+  - ABB
   roomScenes:
   - Nivel1
   - Nivel2
   - Nivel3
-  history: []
-  runSize: 3
-  entrySpawnName: Spawn_Entry
+  - Nivel5
+  - ABB
+  runSize: 4
+  entrySpawnName: 
   returnSpawnName: Spawn_Return
+  endSceneName: ScoreBoard
+  isReturn: 0
