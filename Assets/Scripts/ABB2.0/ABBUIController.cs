@@ -12,7 +12,7 @@ public class ABBUIController : MonoBehaviour
     public Button printInOrderButton;
 
     [Header("Visualizador")]
-    public ABBVisualizer visualizer;   // 👈 referencia al visualizador
+    public ABBVisualizer visualizer;  
 
     private ABB arbol;
 
