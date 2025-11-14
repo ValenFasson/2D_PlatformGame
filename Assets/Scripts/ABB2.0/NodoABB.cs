@@ -1,6 +1,6 @@
 public class NodoABB
 {
-    public int info;      // Valor almacenado
+    public int info;     
     public ABBTDA hijoIzq;
     public ABBTDA hijoDer;
 }

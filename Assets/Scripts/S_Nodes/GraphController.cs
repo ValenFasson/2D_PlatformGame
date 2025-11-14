@@ -29,15 +29,27 @@ public class GraphController : MonoBehaviour, IGraphTDA
     public bool ExisteArista(int v1, int v2)
     {
         foreach (var c in nodes[v1].connections)
-            if (c.targetNode.nodeId == v2) return true;
-        return false;
+        {
+            if (c.targetNode.nodeId == v2)
+            {
+                return true;
+            }
+        }
+                return false;
     }
 
     public float PesoArista(int v1, int v2)
     {
         foreach (var c in nodes[v1].connections)
-            if (c.targetNode.nodeId == v2) return c.weight;
+        {
+            if (c.targetNode.nodeId == v2)
+            {
+                return c.weight;
+            }
+        }
+
         return INF;
+
     }
 
     public int VerticeMasCercano(Vector2 pos)
@@ -46,7 +58,10 @@ public class GraphController : MonoBehaviour, IGraphTDA
         for (int i = 0; i < nodes.Length; i++)
         {
             float d = Vector2.Distance(pos, nodes[i].transform.position);
-            if (d < min) { min = d; id = i; }
+            if (d < min) 
+            { 
+                min = d; id = i; 
+            }
         }
         return id;
     }
@@ -57,35 +72,64 @@ public class GraphController : MonoBehaviour, IGraphTDA
         bool[] vis = new bool[n];
         float[] dist = new float[n];
         int[] prev = new int[n];
-        for (int i = 0; i < n; i++) { dist[i] = INF; prev[i] = -1; }
+
+        for (int i = 0; i < n; i++) 
+        { 
+            dist[i] = INF; prev[i] = -1; 
+        }
+
         dist[start] = 0;
 
         for (int _ = 0; _ < n; _++)
         {
             int u = MinDistance(dist, vis, n);
-            if (u == -1) break;
-            vis[u] = true;
+
+            if (u == -1)
+            {
+                break;
+            }
+                vis[u] = true;
 
             foreach (var c in nodes[u].connections)
             {
                 int v = c.targetNode.nodeId;
-                if (vis[v]) continue;
+                if (vis[v])
+                {
+                    continue;
+                }
+
                 float alt = dist[u] + c.weight;
-                if (alt < dist[v]) { dist[v] = alt; prev[v] = u; }
+
+                if (alt < dist[v]) 
+                { 
+                    dist[v] = alt; prev[v] = u; 
+                }
             }
         }
 
         System.Collections.Generic.List<int> path = new();
-        for (int at = end; at != -1; at = prev[at]) path.Add(at);
+
+        for (int at = end; at != -1; at = prev[at])
+        {
+            path.Add(at);
+        }
+
         path.Reverse();
+
         return path.ToArray();
     }
 
     private int MinDistance(float[] d, bool[] vis, int n)
     {
         float min = INF; int idx = -1;
+
         for (int i = 0; i < n; i++)
-            if (!vis[i] && d[i] <= min) { min = d[i]; idx = i; }
+        {
+            if (!vis[i] && d[i] <= min)
+            {
+                min = d[i]; idx = i;
+            }
+        }
         return idx;
     }
 }
