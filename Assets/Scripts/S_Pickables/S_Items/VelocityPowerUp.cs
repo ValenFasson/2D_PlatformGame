@@ -1,26 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class VelocityPowerUp : ItemHerency, IItemStore
 {
-
     public int priceId { get; set; }
     public string ItemId { get; set; }
     public SpriteRenderer Renderer { get; set; }
 
     PlayerMovement playerMovement;
 
-     private void OnEnable()
+    private void OnEnable()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
+        GameEvents.SpeedStateChanged(true);  // ACTIVADO
     }
+
+    private void OnDisable()
+    {
+        GameEvents.SpeedStateChanged(false); // DESACTIVADO
+    }
+
     private void Start()
     {
         priceId = ItemPrice;
         ItemId = ItemName;
     }
-
     public void PickupItem()
     {
         Debug.Log("Picked up Velocity Power-Up Item");

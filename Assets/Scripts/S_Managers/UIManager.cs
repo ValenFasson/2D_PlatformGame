@@ -4,6 +4,8 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public TMP_Text healthText;
+    public GameObject shieldIcon;
+    public GameObject speedIcon;
 
     void Awake()
     {
@@ -13,11 +15,15 @@ public class UIManager : MonoBehaviour
     void OnEnable()
     {
         GameEvents.OnPlayerDamaged += UpdateHealth;
+        GameEvents.OnShieldStateChanged += SetShieldUI;
+        GameEvents.OnSpeedStateChanged += SetSpeedUI;
     }
 
     void OnDisable()
     {
         GameEvents.OnPlayerDamaged -= UpdateHealth;
+        GameEvents.OnShieldStateChanged -= SetShieldUI;
+        GameEvents.OnSpeedStateChanged -= SetSpeedUI;
     }
 
     void Start()
@@ -25,10 +31,23 @@ public class UIManager : MonoBehaviour
         var player = FindObjectOfType<PlayerHealth>();
         if (player != null)
             healthText.text = player.currentHealth.ToString();
+
+        shieldIcon.SetActive(false);
+        speedIcon.SetActive(false);
     }
 
     void UpdateHealth(int dmg, int currentHealth)
     {
         healthText.text = currentHealth.ToString();
+    }
+
+    void SetShieldUI(bool active)
+    {
+        shieldIcon.SetActive(active);
+    }
+
+    void SetSpeedUI(bool active)
+    {
+        speedIcon.SetActive(active);
     }
 }
