@@ -33,6 +33,7 @@ public class VelocityPowerUp : ItemHerency, IItemStore
     public void UseItem()
     {
         Debug.Log("Using Velocity Power-Up Item");
+        GameEvents.SpeedUsed();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

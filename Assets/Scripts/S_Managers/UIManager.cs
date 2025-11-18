@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
         GameEvents.OnPlayerDamaged += UpdateHealth;
         GameEvents.OnShieldStateChanged += SetShieldUI;
         GameEvents.OnSpeedStateChanged += SetSpeedUI;
+
+        GameEvents.OnShieldUsed += HideShieldUI;
+        GameEvents.OnSpeedUsed += HideSpeedUI;
     }
 
     void OnDisable()
@@ -24,6 +27,9 @@ public class UIManager : MonoBehaviour
         GameEvents.OnPlayerDamaged -= UpdateHealth;
         GameEvents.OnShieldStateChanged -= SetShieldUI;
         GameEvents.OnSpeedStateChanged -= SetSpeedUI;
+
+        GameEvents.OnShieldUsed -= HideShieldUI;
+        GameEvents.OnSpeedUsed -= HideSpeedUI;
     }
 
     void Start()
@@ -50,4 +56,16 @@ public class UIManager : MonoBehaviour
     {
         speedIcon.SetActive(active);
     }
+
+
+    void HideShieldUI()
+    {
+        shieldIcon.SetActive(false);
+    }
+
+    void HideSpeedUI()
+    {
+        speedIcon.SetActive(false);
+    }
+
 }

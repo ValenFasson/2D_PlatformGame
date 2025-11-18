@@ -26,6 +26,7 @@ public class BubbleShield : ItemHerency, IItemStore
     public void UseItem()
     {
         Debug.Log("Using Bubble Shield Item");
+        GameEvents.ShieldUsed();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

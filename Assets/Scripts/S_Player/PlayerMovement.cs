@@ -48,21 +48,27 @@ public class PlayerMovement : MonoBehaviour
         machine.Initialize();
     }
 
-    void Update()
+    public void Update()
     {
         inputX = Input.GetAxis("Horizontal");
-        // cortar la carga si suelta el bot�n
         HandleFlip();
-
         machine.UpdateState();
-        // inicio de salto
+
+        Controls();
     }
 
     public void Controls()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            item.UseItem();
+            if (S_InventoryManager.instance.slot1 != null)
+                S_InventoryManager.instance.slot1.UseItem();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (S_InventoryManager.instance.slot2 != null)
+                S_InventoryManager.instance.slot2.UseItem();
         }
     }
 

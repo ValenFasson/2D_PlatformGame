@@ -8,6 +8,9 @@ public static class GameEvents
     public static event Action<bool> OnShieldStateChanged;
     public static event Action<bool> OnSpeedStateChanged;
 
+    public static event Action OnShieldUsed;
+    public static event Action OnSpeedUsed;
+
     public static void PlayerDamaged(int amount, int currentHealth)
     {
         OnPlayerDamaged?.Invoke(amount, currentHealth);
@@ -26,5 +29,19 @@ public static class GameEvents
     public static void SpeedStateChanged(bool active)
     {
         OnSpeedStateChanged?.Invoke(active);
+
+    }
+
+
+
+
+    public static void ShieldUsed()
+    {
+        OnShieldUsed?.Invoke();
+    }
+
+    public static void SpeedUsed()
+    {
+        OnSpeedUsed?.Invoke();
     }
 }
