@@ -59,13 +59,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void Controls()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (S_InventoryManager.instance.slot1 != null)
                 S_InventoryManager.instance.slot1.UseItem();
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (S_InventoryManager.instance.slot2 != null)
                 S_InventoryManager.instance.slot2.UseItem();
