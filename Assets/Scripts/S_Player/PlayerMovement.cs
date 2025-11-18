@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public float maxJumpHoldTime = 0.25f;    // tope de tiempo para "cargar" el salto
     public float jumpHoldForce = 22f;        // fuerza continua mientras se mantiene ESPACIOmy
 
+    public IItemStore item;
+
     [Header("Gravedad")]
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
@@ -56,6 +58,13 @@ public class PlayerMovement : MonoBehaviour
         // inicio de salto
     }
 
+    public void Controls()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            item.UseItem();
+        }
+    }
 
     void HandleFlip()
     {

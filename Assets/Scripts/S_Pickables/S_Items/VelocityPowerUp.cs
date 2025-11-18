@@ -11,12 +11,12 @@ public class VelocityPowerUp : ItemHerency, IItemStore
     private void OnEnable()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
-        GameEvents.SpeedStateChanged(true);  // ACTIVADO
+        //GameEvents.SpeedStateChanged(true);  // ACTIVADO
     }
 
     private void OnDisable()
     {
-        GameEvents.SpeedStateChanged(false); // DESACTIVADO
+        //GameEvents.SpeedStateChanged(false); // DESACTIVADO
     }
 
     private void Start()
@@ -26,11 +26,21 @@ public class VelocityPowerUp : ItemHerency, IItemStore
     }
     public void PickupItem()
     {
-        Debug.Log("Picked up Velocity Power-Up Item");
+        S_InventoryManager.instance.AddItem(this);
+        Destroy(gameObject);
     }
 
     public void UseItem()
     {
         Debug.Log("Using Velocity Power-Up Item");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            PickupItem();
+
+        }
     }
 }

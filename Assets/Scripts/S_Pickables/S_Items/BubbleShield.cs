@@ -10,20 +10,30 @@ public class BubbleShield : ItemHerency, IItemStore
     {
         priceId = ItemPrice;
         ItemId = ItemName;
-        GameEvents.ShieldStateChanged(true);   // ACTIVADO
+        //GameEvents.ShieldStateChanged(true);   // ACTIVADO
     }
 
     private void OnDisable()
     {
-        GameEvents.ShieldStateChanged(false);  // DESACTIVADO
+        //GameEvents.ShieldStateChanged(false);  // DESACTIVADO
     }
 
     public void PickupItem()
     {
-        Debug.Log("Picked up Bubble Shield Item");
+        S_InventoryManager.instance.AddItem(this);
+        Destroy(gameObject); ;
     }
     public void UseItem()
     {
         Debug.Log("Using Bubble Shield Item");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag ("Player"))
+        {
+            PickupItem();
+
+        }
     }
 }
