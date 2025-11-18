@@ -3659,7 +3659,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8825030817390483349, guid: 44a2862ae14bb854397713d492f42756, type: 3}
       propertyPath: runSize
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825030817390483349, guid: 44a2862ae14bb854397713d492f42756, type: 3}
+      propertyPath: allRooms.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825030817390483349, guid: 44a2862ae14bb854397713d492f42756, type: 3}
+      propertyPath: roomScenes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825030817390483349, guid: 44a2862ae14bb854397713d492f42756, type: 3}
+      propertyPath: allRooms.Array.data[5]
+      value: Store
+      objectReference: {fileID: 0}
+    - target: {fileID: 8825030817390483349, guid: 44a2862ae14bb854397713d492f42756, type: 3}
+      propertyPath: roomScenes.Array.data[5]
+      value: Store
       objectReference: {fileID: 0}
     - target: {fileID: 8825030817390483350, guid: 44a2862ae14bb854397713d492f42756, type: 3}
       propertyPath: m_RootOrder
