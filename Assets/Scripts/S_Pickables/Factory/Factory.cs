@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Factory : MonoBehaviour
 {
+    [SerializeField] public ItemHerency[] itemArray;
     public Dictionary<string, ItemHerency> items;
     public Transform spawnPoint;
     public ItemHerency Create(string id) 
@@ -18,5 +19,10 @@ public class Factory : MonoBehaviour
     public void Awake()
     {
         items = new Dictionary<string, ItemHerency>();
+
+        foreach (ItemHerency item in itemArray)
+        {
+            items.Add(item.ItemName, item);
+        }
     }
 }

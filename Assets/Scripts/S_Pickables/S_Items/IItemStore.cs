@@ -6,7 +6,6 @@ public interface IItemStore
 {
     string ItemId { get; }
     int priceId { get; }
-
     SpriteRenderer Renderer { get; }
 
     public void UseItem();

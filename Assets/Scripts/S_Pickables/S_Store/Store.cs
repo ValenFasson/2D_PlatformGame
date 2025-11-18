@@ -13,15 +13,14 @@ public class Store : MonoBehaviour
 
     public void Start()
     {
-        //aca tenemos que inicializar los items en el array de esta manera:
-        /*
-         IItemStore[] itemsInStore = new IItemStore[]
+        
+         itemsInStore = new IItemStore[]
         {
-            new ScriptNameItem1(),   // index 0
-            new ScriptNameItem2(),     // index 1
-            new ScriptNameItem3() // index 2
+            new BubbleShield(),   // index 0
+            new VelocityPowerUp()     // index 1
+            
         };
-         */
+         
     }
     public void MoveLeft() 
     {
