@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Factory : MonoBehaviour
 {
-    public IItemStore[] itemsArry;
-    public Dictionary<string, IItemStore> items;
-    public IItemStore Create(string id) 
+    public Dictionary<string, ItemHerency> items;
+    public Transform spawnPoint;
+    public ItemHerency Create(string id) 
     {
-        if(!items.TryGetValue(id, out IItemStore item)) 
+        if(!items.TryGetValue(id, out ItemHerency item)) 
         {
             return null;
         }
-        return null;
+        return Instantiate(item, spawnPoint.position, spawnPoint.rotation);
     }
 
     public void Awake()
     {
-        items = new Dictionary<string, IItemStore>();
+        items = new Dictionary<string, ItemHerency>();
     }
 }

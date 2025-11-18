@@ -9,6 +9,7 @@ public class Store : MonoBehaviour
     public IItemStore[] itemsInStore;
     public int index;
     public TextMeshProUGUI BuyButton;
+    public Factory factory;
 
     public void Start()
     {
@@ -58,6 +59,6 @@ public class Store : MonoBehaviour
     {
         Debug.Log("esto deberia estar saliendo aunque con un error, faltan los items");
         Singleton.instance.CurrentScore -= itemsInStore[index].priceId;
-        //Aca se ejecuta el llamado al factory
+        factory.Create(itemsInStore[index].ItemId);
     }
 }
