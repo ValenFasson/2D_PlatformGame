@@ -9,13 +9,13 @@ public class Singleton : MonoBehaviour
     static public Singleton instance;
     [SerializeField] public TextMeshProUGUI scoreText;
     [SerializeField] public TextMeshProUGUI timerText;
-    
+
     [SerializeField] private float TimerCounter;
-    private float maxTime = 30; // este es el tiempo de cada escena
-    //private bool firstSceneLoaded = false;
+    private float maxTime = 30;
 
     public string playerName;
     public int CurrentScore;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -28,9 +28,10 @@ public class Singleton : MonoBehaviour
         SceneManager.activeSceneChanged += OnSceneChanged;
         DontDestroyOnLoad(gameObject);
     }
+
     public void Update()
     {
-        if(SceneManager.GetActiveScene().name != "ScoreBoard") 
+        if (SceneManager.GetActiveScene().name != "ScoreBoard")
         {
             scoreText.gameObject.SetActive(true);
             timerText.gameObject.SetActive(true);
@@ -38,34 +39,37 @@ public class Singleton : MonoBehaviour
             timerText.text = TimerCounter.ToString("f1");
             TimerCounter -= Time.deltaTime;
         }
-        else 
+        else
         {
             scoreText.gameObject.SetActive(false);
             timerText.gameObject.SetActive(false);
         }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("Escena actual: " + SceneManager.GetActiveScene().name);
-        }
     }
 
-    private void OnSceneChanged(Scene oldScene, Scene newScene) //una funcion propia de una libreria
+    private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
-        if (SceneManager.GetActiveScene().name == "Bootstrap")
+        string newName = newScene.name;
+
+        if (newName == "Bootstrap")
         {
             TimerCounter = maxTime;
             return;
         }
-        else if(SceneManager.GetActiveScene().name == "ScoreBoard") 
+
+        if (oldScene.name != "Bootstrap" && oldScene.name != "ScoreBoard")
         {
-            QuickInfo.QSinfo.newPlayer(playerName, CurrentScore);
+            CurrentScore += Mathf.FloorToInt(TimerCounter);
+            TimerCounter = maxTime;
+        }
+
+        if (newName == "ScoreBoard")
+        {
+            if (QuickInfo.QSinfo != null)
+                QuickInfo.QSinfo.newPlayer(playerName, CurrentScore);
+
             playerName = "";
             CurrentScore = 0;
             return;
         }
-            //Aca se puede ajustar todas las variables que quiero que se reinicien en cada cambio de escena
-            CurrentScore += Mathf.FloorToInt(TimerCounter);
-            TimerCounter = maxTime;
     }
 }

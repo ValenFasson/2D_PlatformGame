@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 4816996923093548300}
   - component: {fileID: 6276212966098569389}
   - component: {fileID: 5619358952892540536}
+  - component: {fileID: 571554855028663564}
+  - component: {fileID: 8994461818013063695}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -112,6 +114,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyFacadeName: Ghost
+--- !u!114 &571554855028663564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816996923093548302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36fcbd7de67954749b734dbcb49e80ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  cooldown: 0.5
+--- !u!58 &8994461818013063695
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816996923093548302}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &4816996923712742851
 GameObject:
   m_ObjectHideFlags: 0
