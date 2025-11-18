@@ -6,22 +6,12 @@ using UnityEngine.UI;
 
 public class Store : MonoBehaviour
 {
-    public IItemStore[] itemsInStore;
+    public ItemHerency[] itemsInStore;
     public int index;
     public TextMeshProUGUI BuyButton;
     public Factory factory;
 
-    public void Start()
-    {
-        
-         itemsInStore = new IItemStore[]
-        {
-            new BubbleShield(),   // index 0
-            new VelocityPowerUp()     // index 1
-            
-        };
-         
-    }
+   
     public void MoveLeft() 
     {
         Debug.Log("El index Decrementa");
@@ -51,13 +41,13 @@ public class Store : MonoBehaviour
 
     public void ChangeButtonInfo() 
     {
-        BuyButton.text = itemsInStore[index].ItemId + " = " + itemsInStore[index].priceId.ToString();
+        BuyButton.text = itemsInStore[index].ItemName + " = " + itemsInStore[index].ItemPrice.ToString();
     }
 
     public void Buy() 
     {
         Debug.Log("esto deberia estar saliendo aunque con un error, faltan los items");
-        Singleton.instance.CurrentScore -= itemsInStore[index].priceId;
-        factory.Create(itemsInStore[index].ItemId);
+//        Singleton.instance.CurrentScore -= itemsInStore[index].ItemPrice;
+        factory.Create(itemsInStore[index].ItemName);
     }
 }
