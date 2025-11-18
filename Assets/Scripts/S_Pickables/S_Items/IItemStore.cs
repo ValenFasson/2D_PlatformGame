@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IItemStore
 {
     string ItemId { get; }
-    float priceId { get; }
+    int priceId { get; }
 }
