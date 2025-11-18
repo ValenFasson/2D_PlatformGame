@@ -15,7 +15,6 @@ public class SceneStackManager : MonoBehaviour
     public string returnSpawnName = "Spawn_Return";
 
     [Header("Final Scene")]
-    [Tooltip("Escena a la que se irá cuando termine la rotación completa")]
     public string endSceneName = "ScoreBoard";
 
     private int index = 0;
@@ -48,12 +47,10 @@ public class SceneStackManager : MonoBehaviour
         ManageScene();
     }
 
-    // Genera un nuevo conjunto de niveles con todos los niveles aleatorizados
     public void ChargeStack()
     {
         List<string> shuffled = new List<string>(allRooms);
 
-        // Mezcla aleatoria de todos los niveles (Fisher-Yates)
         for (int i = 0; i < shuffled.Count; i++)
         {
             int randomIndex = Random.Range(i, shuffled.Count);
@@ -66,33 +63,25 @@ public class SceneStackManager : MonoBehaviour
         index = 0;
     }
 
-    // Devuelve la siguiente o anterior escena según "forward"
     public string GetScene(bool forward)
     {
         isReturn = !forward;
 
         if (forward)
-        {
             index++;
-        }
         else
-        {
             index--;
-        }
 
-        // 🔹 Si ya completó la rotación, va directo a la escena final
         if (forward && index >= roomScenes.Length)
         {
-            index = roomScenes.Length - 1; // Mantiene índice válido
+            index = roomScenes.Length - 1;
+
             LoadScene(endSceneName);
             return null;
         }
 
-        // Evita valores fuera de rango
         if (index < 0)
-        {
             index = 0;
-        }
 
         return roomScenes[index];
     }
@@ -100,13 +89,17 @@ public class SceneStackManager : MonoBehaviour
     public void LoadScene(string scene)
     {
         if (!string.IsNullOrEmpty(scene))
-        {
             SceneManager.LoadScene(scene);
-        }
     }
 
     public void ManageScene()
     {
+        string current = SceneManager.GetActiveScene().name;
+
+        // 🔥 FIX DEL LOOP INFINITO
+        if (current == endSceneName)
+            return;
+
         if (isReturn)
             PlacePlayer(returnSpawnName);
         else
@@ -137,7 +130,8 @@ public class SceneStackManager : MonoBehaviour
             rb2d.angularVelocity = 0f;
         }
     }
-    public void resetRun() 
+
+    public void resetRun()
     {
         index = 0;
         isReturn = false;
