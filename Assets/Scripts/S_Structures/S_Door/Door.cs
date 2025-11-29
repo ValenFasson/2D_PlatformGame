@@ -5,7 +5,6 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [Header("Door")]
-    public bool goBack = false;
     public float reuseDelay = 0.5f;
 
     bool canUse = true;
@@ -36,19 +35,16 @@ public class Door : MonoBehaviour
 
     void UseDoor()
     {
-        var manager = FindObjectOfType<SceneStackManager>();
-        if (manager == null)
+        var sceneManager = FindObjectOfType<SceneStackManager>();
+        if (sceneManager == null)
         {
             return;
         }
-
-        string nextScene = manager.GetScene(!goBack);
-        if (!string.IsNullOrEmpty(nextScene))
+        else 
         {
-            manager.LoadScene(nextScene);
+            sceneManager.GetScene(); //Reemplazamos el codigo anterior y ahora sceneStackManager se encarga de procesar las escenas
         }
-
-        StartCoroutine(Cooldown());
+            StartCoroutine(Cooldown());
     }
 
     IEnumerator Cooldown()

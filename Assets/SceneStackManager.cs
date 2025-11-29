@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,7 @@ public class SceneStackManager : MonoBehaviour
 {
     [Header("Rooms")]
     [SerializeField] private string[] allRooms = { "Nivel1", "Nivel2", "Nivel3" };
-    public string[] roomScenes;
+    public int[] numerosElegidos;
     public int runSize = 3;
 
     [Header("Spawns")]
@@ -16,14 +17,15 @@ public class SceneStackManager : MonoBehaviour
 
     [Header("Final Scene")]
     public string endSceneName = "ScoreBoard";
-
-    private int index = 0;
     public bool isReturn = false;
 
+    [Header("Cola TDA")]
+    Cola cola;
     static SceneStackManager instance;
 
     void Awake()
     {
+        cola = new Cola(); // creamos la estructura de cola
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -33,7 +35,6 @@ public class SceneStackManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-
         ChargeStack();
     }
 
@@ -47,83 +48,69 @@ public class SceneStackManager : MonoBehaviour
         ManageScene();
     }
 
-    public void ChargeStack()
+    public void ChargeStack() 
     {
-        List<string> shuffled = new List<string>(allRooms);
+        cola.InicializarCola();
+        numerosElegidos = new int[allRooms.Length];
+        for (int j = 0; j < numerosElegidos.Length; j++) //inicializamos el array con todos valores invalidos
+            numerosElegidos[j] = -1;
 
-        for (int i = 0; i < shuffled.Count; i++)
+        for (int i = 0; i < allRooms.Length; i++)
         {
-            int randomIndex = Random.Range(i, shuffled.Count);
-            string temp = shuffled[i];
-            shuffled[i] = shuffled[randomIndex];
-            shuffled[randomIndex] = temp;
+            int randomIndex;
+            do
+            {
+                randomIndex = Random.Range(0, allRooms.Length);
+            }
+            while (numerosElegidos.Contains(randomIndex)); // repetimos si ya existe el numero
+            numerosElegidos[i] = randomIndex; // guardar índice único
+            cola.Acolar(allRooms[randomIndex]); // encolar room
         }
-
-        roomScenes = shuffled.ToArray();
-        index = 0;
     }
 
-    public string GetScene(bool forward)
+    public void GetScene()
     {
-        isReturn = !forward;
-
-        if (forward)
-            index++;
-        else
-            index--;
-
-        if (forward && index >= roomScenes.Length)
+        if (cola.ColaVacia()) //si la cola esta vacia...
         {
-            index = roomScenes.Length - 1;
-
-            LoadScene(endSceneName);
-            return null;
+            SceneManager.LoadScene(endSceneName); //cargamos la escena preasignada
         }
-
-        if (index < 0)
-            index = 0;
-
-        return roomScenes[index];
-    }
-
-    public void LoadScene(string scene)
-    {
-        if (!string.IsNullOrEmpty(scene))
+        else 
+        {
+            string scene = cola.Primero();
+            cola.Desacolar();
             SceneManager.LoadScene(scene);
+        }
     }
-
-    public void ManageScene()
+    public void ManageScene() // esta funcion se ejecuta luego de la escena cargada
     {
-        string current = SceneManager.GetActiveScene().name;
-
-        // 🔥 FIX DEL LOOP INFINITO
-        if (current == endSceneName)
+        string current = SceneManager.GetActiveScene().name; // nombre de escena actual
+        if (current == endSceneName) // si la escena actual es igual a la escena final salimos
             return;
 
-        if (isReturn)
+        if (isReturn) // si se puede volver a jugar ejecutamos : 
             PlacePlayer(returnSpawnName);
         else
             PlacePlayer(entrySpawnName);
     }
 
-    void PlacePlayer(string spawnName)
+    void PlacePlayer(string spawnName) // ubicamos al player en escena segun el nombre de entrada
     {
-        GameObject spawn = GameObject.Find(spawnName);
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject spawn = GameObject.Find(spawnName); // guardamos el punto de spawn en "spawn"
+        GameObject player = GameObject.FindGameObjectWithTag("Player"); // guardamos al Player en "player"
 
-        if (spawn == null || player == null) return;
+        if (spawn == null || player == null) return; // si no existen salimos
 
-        player.transform.position = spawn.transform.position;
+        player.transform.position = spawn.transform.position; // ubicamos al player en posicion y rotacion del punto de spawn
         player.transform.rotation = spawn.transform.rotation;
 
-        Rigidbody2D rb2d = player.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb2d = player.GetComponent<Rigidbody2D>(); // guardamos el rigidbody del Player en "rb2d"
         if (rb2d != null)
         {
-            rb2d.velocity = Vector2.zero;
+            rb2d.velocity = Vector2.zero; //detenemos el movimiento del player ???
             rb2d.angularVelocity = 0f;
         }
 
-        Rigidbody rb = player.GetComponent<Rigidbody>();
+        Rigidbody rb = player.GetComponent<Rigidbody>(); // hacemos lo mismo pero en 3D?
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
@@ -131,10 +118,9 @@ public class SceneStackManager : MonoBehaviour
         }
     }
 
-    public void resetRun()
+    public void resetRun() //resetea todos los valores para volver a jugar
     {
-        index = 0;
         isReturn = false;
-        ChargeStack();
+        ChargeStack(); // hace el proceso de mezcla de nuevo
     }
 }
