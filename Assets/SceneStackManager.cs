@@ -38,11 +38,6 @@ public class SceneStackManager : MonoBehaviour
         ChargeStack();
     }
 
-    void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ManageScene();

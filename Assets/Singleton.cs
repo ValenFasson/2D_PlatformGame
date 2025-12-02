@@ -9,15 +9,19 @@ public class Singleton : MonoBehaviour
     static public Singleton instance;
     [SerializeField] public TextMeshProUGUI scoreText;
     [SerializeField] public TextMeshProUGUI timerText;
+    public Pila pila;
 
     [SerializeField] private float TimerCounter;
     private float maxTime = 30;
 
     public string playerName;
     public int CurrentScore;
+    public int pilaScore;
 
     void Awake()
     {
+        pila = new Pila();
+        pila.InicializarPila();
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -58,7 +62,10 @@ public class Singleton : MonoBehaviour
 
         if (oldScene.name != "Bootstrap" && oldScene.name != "ScoreBoard")
         {
-            CurrentScore += Mathf.FloorToInt(TimerCounter);
+            pilaScore = 0;
+            DesapilarResultado();
+            CurrentScore += pilaScore;
+            CurrentScore += Mathf.FloorToInt(TimerCounter); //aca tenemos que hacer el proceso de pila
             TimerCounter = maxTime;
         }
 
@@ -70,6 +77,24 @@ public class Singleton : MonoBehaviour
             playerName = "";
             CurrentScore = 0;
             return;
+        }
+    }
+    private void DesapilarResultado() 
+    {
+        while (!pila.PilaVacia()) 
+        {
+            Operation container;
+            container = pila.Primero();
+            switch (container.op) 
+            {
+                case "suma":
+                    pilaScore += container.amount;
+                    break;
+                case "mult":
+                    pilaScore *= container.amount;
+                    break;
+            }
+            pila.Desapilar();
         }
     }
 }

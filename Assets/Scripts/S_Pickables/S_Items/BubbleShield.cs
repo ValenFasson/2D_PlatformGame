@@ -21,7 +21,7 @@ public class BubbleShield : ItemHerency, IItemStore
     public void PickupItem()
     {
         S_InventoryManager.instance.AddItem(this);
-        Destroy(gameObject); ;
+        Destroy(gameObject);
     }
     public void UseItem()
     {

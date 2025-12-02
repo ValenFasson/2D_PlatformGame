@@ -171,6 +171,7 @@ MonoBehaviour:
   inspectorVisualEffectSystem: {fileID: 0}
   inspectorScoreSystem: {fileID: 0}
   scoreValueForThisCoin: 10
+  operationForThisCoin: suma
 --- !u!1 &9125992226437037064
 GameObject:
   m_ObjectHideFlags: 0

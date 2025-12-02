@@ -15,6 +15,7 @@ public class CoinPickUpFacade : MonoBehaviour // <----- Este es el cliente
     //Cada cliente debe tener los sistemas que aplique el facade
 
     [SerializeField] private int scoreValueForThisCoin;
+    [SerializeField] private string operationForThisCoin; 
 
 
     public void Awake()
@@ -31,6 +32,7 @@ public class CoinPickUpFacade : MonoBehaviour // <----- Este es el cliente
         var scoreSystem = inspectorScoreSystem != null ? inspectorScoreSystem : FindObjectOfType<S_ScoreSystem>();
         pickUpFacade = new PickUpFacade(soundSystem, animationSystem, visualEffectSystem, scoreSystem);
         pickUpFacade.scoreAux = scoreValueForThisCoin;
+        pickUpFacade.opAux = operationForThisCoin;
 
         yield return null;
     }

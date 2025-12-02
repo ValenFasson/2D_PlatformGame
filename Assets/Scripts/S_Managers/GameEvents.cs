@@ -32,9 +32,6 @@ public static class GameEvents
 
     }
 
-
-
-
     public static void ShieldUsed()
     {
         OnShieldUsed?.Invoke();
