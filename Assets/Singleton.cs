@@ -11,7 +11,7 @@ public class Singleton : MonoBehaviour
     [SerializeField] public TextMeshProUGUI timerText;
     public Pila pila;
 
-    [SerializeField] private float TimerCounter;
+    public float TimerCounter;
     private float maxTime = 30;
 
     public string playerName;
@@ -65,7 +65,7 @@ public class Singleton : MonoBehaviour
             pilaScore = 0;
             DesapilarResultado();
             CurrentScore += pilaScore;
-            CurrentScore += Mathf.FloorToInt(TimerCounter); //aca tenemos que hacer el proceso de pila
+            CurrentScore += Mathf.FloorToInt(TimerCounter);
             TimerCounter = maxTime;
         }
 
@@ -74,18 +74,23 @@ public class Singleton : MonoBehaviour
             if (QuickInfo.QSinfo != null)
                 QuickInfo.QSinfo.newPlayer(playerName, CurrentScore);
 
+            var manager = FindObjectOfType<GameMementoManager>();
+            if (manager != null)
+                manager.ClearMemento();
+
             playerName = "";
             CurrentScore = 0;
             return;
         }
     }
-    private void DesapilarResultado() 
+
+    private void DesapilarResultado()
     {
-        while (!pila.PilaVacia()) 
+        while (!pila.PilaVacia())
         {
             Operation container;
             container = pila.Primero();
-            switch (container.op) 
+            switch (container.op)
             {
                 case "suma":
                     pilaScore += container.amount;
