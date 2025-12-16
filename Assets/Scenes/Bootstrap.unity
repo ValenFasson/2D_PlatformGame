@@ -2659,10 +2659,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61331196, guid: ae85efec73d88c847b45ec61d294cd6f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 244.5132
+      objectReference: {fileID: 0}
+    - target: {fileID: 61331198, guid: ae85efec73d88c847b45ec61d294cd6f, type: 3}
+      propertyPath: m_text
+      value: 'Cuurrent Score:'
+      objectReference: {fileID: 0}
     - target: {fileID: 1019676700, guid: ae85efec73d88c847b45ec61d294cd6f, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1381127070}
+    - target: {fileID: 2044032924, guid: ae85efec73d88c847b45ec61d294cd6f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 120.9
+      objectReference: {fileID: 0}
     - target: {fileID: 177368630394834527, guid: ae85efec73d88c847b45ec61d294cd6f, type: 3}
       propertyPath: m_RootOrder
       value: 2
