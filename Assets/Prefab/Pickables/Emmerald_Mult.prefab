@@ -166,8 +166,13 @@ MonoBehaviour:
   inspectorAnimationSystem: {fileID: 0}
   inspectorVisualEffectSystem: {fileID: 0}
   inspectorScoreSystem: {fileID: 0}
+  showTextInCoin: 1
+  coinText: {fileID: 5320148367046169376}
+  isValueRandom: 0
+  isValueNegative: 0
   scoreValueForThisCoin: 2
-  operationForThisCoin: mult
+  isOperationRandom: 0
+  operationForThisCoin: 0
 --- !u!1 &3072807640886974315
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: x2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -419,7 +424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2478118650318042246}
   m_Layer: 0
-  m_Name: Emmerald
+  m_Name: Emmerald_Mult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

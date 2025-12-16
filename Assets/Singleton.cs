@@ -16,7 +16,7 @@ public class Singleton : MonoBehaviour
 
     public string playerName;
     public int CurrentScore;
-    public int pilaScore;
+    public float pilaScore;
 
     void Awake()
     {
@@ -64,7 +64,7 @@ public class Singleton : MonoBehaviour
         {
             pilaScore = 0;
             DesapilarResultado();
-            CurrentScore += pilaScore;
+            CurrentScore += Mathf.RoundToInt(pilaScore);
             CurrentScore += Mathf.FloorToInt(TimerCounter); //aca tenemos que hacer el proceso de pila
             TimerCounter = maxTime;
         }
@@ -87,10 +87,10 @@ public class Singleton : MonoBehaviour
             container = pila.Primero();
             switch (container.op) 
             {
-                case "suma":
+                case Enum_Coin_Operation.suma:
                     pilaScore += container.amount;
                     break;
-                case "mult":
+                case Enum_Coin_Operation.mult:
                     pilaScore *= container.amount;
                     break;
             }

@@ -10,8 +10,8 @@ public class PickUpFacade
     private S_VisualEffectSystem visualEffectSystem;
     private S_ScoreSystem scoreSystem;
 
-    [NonSerialized] public int scoreAux;
-    [NonSerialized] public string opAux; //tipo de operacion
+    [NonSerialized] public float scoreAux;
+    [NonSerialized] public Enum_Coin_Operation opAux; //tipo de operacion
 
     public PickUpFacade(S_SoundSystem soundSys, S_AnimationSystem animationSys, S_VisualEffectSystem visualEffectSys, S_ScoreSystem scoreSys)
     {
@@ -28,7 +28,6 @@ public class PickUpFacade
         soundSystem?.PlaySound(itemName + "_pickup");
         animationSystem?.PlayAnimation(itemName + "_pickup");
         visualEffectSystem?.PlayEffect(itemName + "_pickup");
-
         scoreSystem?.AddScore(scoreAux, opAux);
     }
 }

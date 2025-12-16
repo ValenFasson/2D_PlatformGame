@@ -6,10 +6,10 @@ public class S_ScoreSystem : MonoBehaviour
 {
     [SerializeField] public Singleton singleton;
     Operation Operacion;
-    public void AddScore(int amount, string op)
+    public void AddScore(float amount, Enum_Coin_Operation op)
     {
        Operacion = new Operation();
-       Operacion.amount = amount;
+       Operacion.amount = Mathf.RoundToInt(amount);
        Operacion.op = op;
        singleton.pila.Apilar(Operacion);
     }
@@ -18,5 +18,5 @@ public class S_ScoreSystem : MonoBehaviour
 public class Operation
 {
     public int amount;
-    public string op;
+    public Enum_Coin_Operation op;
 }
