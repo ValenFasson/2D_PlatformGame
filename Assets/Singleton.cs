@@ -11,7 +11,7 @@ public class Singleton : MonoBehaviour
     [SerializeField] public TextMeshProUGUI timerText;
     public Pila pila;
 
-    [SerializeField] private float TimerCounter;
+    [SerializeField] public float TimerCounter;
     private float maxTime = 30;
 
     public string playerName;
