@@ -14,16 +14,12 @@ public class Pila : IPilaTDA
 
     public void Apilar(Operation op)
     {
-        for (int i = indice - 1; i >= 0; i--)
-        {
-            Op[i + 1] = Op[i];
-        }
-        Op[0] = op;
-
+        Op[indice] = op;
         indice++;
     }
     public void Desapilar()
     {
+        Op[indice] = null;
         indice--;
     }
     public bool PilaVacia()

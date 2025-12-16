@@ -13,12 +13,15 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        GameEvents.PlayerDamaged(amount, currentHealth);
 
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+            GameEvents.PlayerDamaged(amount, currentHealth);
             GameEvents.PlayerDied();
+            return;
         }
+
+        GameEvents.PlayerDamaged(amount, currentHealth);
     }
 }

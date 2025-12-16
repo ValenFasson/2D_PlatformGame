@@ -43,7 +43,7 @@ public class SceneStackManager : MonoBehaviour
         ManageScene();
     }
 
-    public void ChargeStack() 
+    public void ChargeStack()
     {
         cola.InicializarCola();
         numerosElegidos = new int[allRooms.Length];

@@ -20,6 +20,21 @@ public class DeathManager : MonoBehaviour
         GameEvents.OnPlayerDeath -= OnDeath;
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            var p = FindObjectOfType<PlayerHealth>();
+            if (p != null)
+            {
+                p.currentHealth -= 99;
+                GameEvents.PlayerDamaged(1, p.currentHealth);
+                if (p.currentHealth <= 0)
+                    GameEvents.PlayerDied();
+            }
+        }
+    }
+
     void OnDeath()
     {
         Time.timeScale = 1f;
