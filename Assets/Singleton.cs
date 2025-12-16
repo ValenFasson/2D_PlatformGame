@@ -9,6 +9,8 @@ public class Singleton : MonoBehaviour
     static public Singleton instance;
     [SerializeField] public TextMeshProUGUI scoreText;
     [SerializeField] public TextMeshProUGUI timerText;
+    public RoomResultsPopUp roomResultsPopUp;
+
     public Pila pila;
 
     [SerializeField] public float TimerCounter;
@@ -17,6 +19,12 @@ public class Singleton : MonoBehaviour
     public string playerName;
     public int CurrentScore;
     public float pilaScore;
+
+    public int previousScore;
+    public int roomTimeBonus;
+    public bool roomCalculated;
+
+    public string roomOperations;
 
     void Awake()
     {
@@ -50,6 +58,33 @@ public class Singleton : MonoBehaviour
         }
     }
 
+    public void ShowRoomResults()
+    {
+        if (roomResultsPopUp == null)
+            return;
+
+        CalculateRoomResult();
+        roomResultsPopUp.Show();
+    }
+
+    public void CalculateRoomResult()
+    {
+        if (roomCalculated)
+            return;
+
+        previousScore = CurrentScore;
+        pilaScore = 0;
+        roomOperations = "";
+
+        DesapilarResultado();
+
+        roomTimeBonus = Mathf.FloorToInt(TimerCounter);
+        pilaScore += roomTimeBonus;
+        roomOperations += ", +Tiempo(" + roomTimeBonus + ")";
+
+        roomCalculated = true;
+    }
+
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
         string newName = newScene.name;
@@ -62,11 +97,12 @@ public class Singleton : MonoBehaviour
 
         if (oldScene.name != "Bootstrap" && oldScene.name != "ScoreBoard")
         {
-            pilaScore = 0;
-            DesapilarResultado();
-            CurrentScore += Mathf.RoundToInt(pilaScore);
-            CurrentScore += Mathf.FloorToInt(TimerCounter); //aca tenemos que hacer el proceso de pila
-            TimerCounter = maxTime;
+            if (roomCalculated)
+            {
+                CurrentScore += Mathf.RoundToInt(pilaScore);
+                TimerCounter = maxTime;
+                roomCalculated = false;
+            }
         }
 
         if (newName == "ScoreBoard")
@@ -79,21 +115,39 @@ public class Singleton : MonoBehaviour
             return;
         }
     }
-    private void DesapilarResultado() 
+
+    private void DesapilarResultado()
     {
-        while (!pila.PilaVacia()) 
+        bool first = true;
+
+        while (!pila.PilaVacia())
         {
-            Operation container;
-            container = pila.Primero();
-            switch (container.op) 
+            Operation container = pila.Primero();
+            string opText = "";
+
+            switch (container.op)
             {
                 case Enum_Coin_Operation.suma:
                     pilaScore += container.amount;
+                    opText = (container.amount >= 0 ? "+" : "") + container.amount;
                     break;
+
                 case Enum_Coin_Operation.mult:
                     pilaScore *= container.amount;
+                    opText = "x" + container.amount;
                     break;
             }
+
+            if (first)
+            {
+                roomOperations = opText;
+                first = false;
+            }
+            else
+            {
+                roomOperations += ", " + opText;
+            }
+
             pila.Desapilar();
         }
     }

@@ -2,7 +2,14 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    [SerializeField] private Color activatedColor = Color.white;
     private bool used;
+    private SpriteRenderer spriteRenderer;
+
+    void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -17,6 +24,11 @@ public class Checkpoint : MonoBehaviour
         }
 
         used = true;
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = activatedColor;
+        }
 
         if (GameMementoManager.Instance != null)
         {
